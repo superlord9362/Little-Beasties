@@ -1,0 +1,16 @@
+{
+	"entity.little_beasties.tropical_dartfish": "Tropical Dartfish",
+	"entity.little_beasties.blue_manefish": "Blue Manefish",
+	"entity.little_beasties.saildrifter": "Saildrifter",
+	
+	"item.little_beasties.tropical_dartfish_spawn_egg": "Tropical Dartfish Spawn Egg",
+	"item.little_beasties.blue_manefish_spawn_egg": "Blue Manefish Spawn Egg",
+	"item.little_beasties.saildrifter_spawn_egg": "Saildrifter Spawn Egg",
+	
+	"item.little_beasties.tropical_dartfish_bucket": "Bucket of Tropical Dartfish",
+	"item.little_beasties.blue_manefish_bucket": "Bucket of Blue Manefish",
+	"item.little_beasties.saildrifter_bucket": "Bucket of Saildrifter",
+	
+	"itemGroup.little_beasties_item_group": "Little Beasties Items",
+	"itemGroup.little_beasties_spawn_item_group": "Little Beasties Spawn Eggs"
+}
