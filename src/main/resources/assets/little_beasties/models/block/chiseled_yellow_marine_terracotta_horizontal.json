@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "little_beasties:block/yellow_marine_terracotta",
+    "side": "little_beasties:block/chiseled_yellow_marine_terracotta"
+  }
+}

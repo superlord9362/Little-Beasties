@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marine_terracotta_pillar",
+  "key": {
+    "#": {
+      "item": "little_beasties:brown_marine_terracotta"
+    }
+  },
+  "pattern": [
+    "#",
+    "#"
+  ],
+  "result": {
+    "count": 2,
+    "item": "little_beasties:brown_marine_terracotta_pillar"
+  },
+  "show_notification": true
+}

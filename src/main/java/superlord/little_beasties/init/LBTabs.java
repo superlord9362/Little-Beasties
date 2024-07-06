@@ -27,4 +27,12 @@ public class LBTabs {
 				}
 			}).build());
 	
+	public static final RegistryObject<CreativeModeTab> BLOCKS_GROUP = REGISTER.register("little_beasties_block_item_group", () -> CreativeModeTab.builder().icon(() -> new ItemStack(LBItems.MARINE_CLAY.get()))
+			.title(Component.translatable("itemGroup.little_beasties_block_item_group"))
+			.displayItems((pParameters, pOutput) -> {
+				for (var block : LBItems.BLOCKS.getEntries()) {
+					pOutput.accept(block.get());
+				}
+			}).build());
+	
 }

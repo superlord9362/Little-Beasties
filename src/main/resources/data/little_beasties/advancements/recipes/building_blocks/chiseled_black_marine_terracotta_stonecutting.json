@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_terracotta": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "little_beasties:black_marine_terracotta"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "little_beasties:chiseled_black_marine_terracotta_mt_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_terracotta",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "little_beasties:chiseled_black_marine_terracotta_mt_stonecutting"
+    ]
+  },
+  "sends_telemetry_event": false
+}

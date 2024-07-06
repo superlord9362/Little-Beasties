@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "stained_marine_terracotta",
+  "key": {
+    "#": {
+      "item": "little_beasties:marine_terracotta"
+    },
+    "X": {
+      "item": "minecraft:lime_dye"
+    }
+  },
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "result": {
+    "count": 8,
+    "item": "little_beasties:lime_marine_terracotta"
+  },
+  "show_notification": true
+}

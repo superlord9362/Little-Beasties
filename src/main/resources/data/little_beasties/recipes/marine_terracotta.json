@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "little_beasties:marine_clay"
+  },
+  "result": "little_beasties:marine_terracotta"
+}

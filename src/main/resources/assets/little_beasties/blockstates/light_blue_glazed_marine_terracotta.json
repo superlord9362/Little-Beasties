@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "little_beasties:block/light_blue_glazed_marine_terracotta",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "little_beasties:block/light_blue_glazed_marine_terracotta",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "little_beasties:block/light_blue_glazed_marine_terracotta"
+    },
+    "facing=west": {
+      "model": "little_beasties:block/light_blue_glazed_marine_terracotta",
+      "y": 90
+    }
+  }
+}

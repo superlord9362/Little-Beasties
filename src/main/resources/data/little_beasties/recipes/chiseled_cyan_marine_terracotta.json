@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "chiseled_marine_terracotta",
+  "key": {
+    "#": {
+      "item": "little_beasties:cyan_marine_terracotta_pillar"
+    }
+  },
+  "pattern": [
+    "#",
+    "#"
+  ],
+  "result": {
+    "count": 2,
+    "item": "little_beasties:chiseled_cyan_marine_terracotta"
+  },
+  "show_notification": true
+}

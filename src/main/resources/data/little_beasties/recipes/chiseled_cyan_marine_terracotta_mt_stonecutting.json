@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "little_beasties:cyan_marine_terracotta"
+  },
+  "result": "little_beasties:chiseled_cyan_marine_terracotta"
+}

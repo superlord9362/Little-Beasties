@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "little_beasties:green_marine_terracotta"
+  },
+  "result": "little_beasties:green_marine_terracotta_pillar"
+}

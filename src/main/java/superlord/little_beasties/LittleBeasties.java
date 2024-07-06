@@ -12,6 +12,7 @@ import superlord.little_beasties.common.entity.BlueManefish;
 import superlord.little_beasties.common.entity.Saildrifter;
 import superlord.little_beasties.common.entity.TropicalDartfish;
 import superlord.little_beasties.init.LBBiomeModifiers;
+import superlord.little_beasties.init.LBBlocks;
 import superlord.little_beasties.init.LBEntities;
 import superlord.little_beasties.init.LBItems;
 import superlord.little_beasties.init.LBTabs;
@@ -28,8 +29,10 @@ public class LittleBeasties {
 		bus.addListener(this::registerEntityAttributes);
 		
 		LBEntities.REGISTER.register(bus);
+		LBBlocks.REGISTER.register(bus);
 		LBItems.SPAWN_EGGS.register(bus);
 		LBItems.REGISTER.register(bus);
+		LBItems.BLOCKS.register(bus);
 		LBTabs.REGISTER.register(bus);
 		LBBiomeModifiers.BIOME_MODIFIER_SERIALIZERS.register(bus);
 	}
