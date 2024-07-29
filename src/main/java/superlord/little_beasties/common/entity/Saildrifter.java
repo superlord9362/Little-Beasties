@@ -52,8 +52,8 @@ import net.minecraft.world.phys.Vec3;
 import superlord.little_beasties.init.LBItems;
 
 public class Saildrifter extends WaterAnimal implements Bucketable {
-	private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(BlueManefish.class, EntityDataSerializers.BOOLEAN);
-	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(BlueManefish.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(Saildrifter.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(Saildrifter.class, EntityDataSerializers.INT);
 	private Saildrifter leader;
 	private int schoolSize = 1;
 	

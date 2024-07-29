@@ -1,15 +1,21 @@
 package superlord.little_beasties.init;
 
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import superlord.little_beasties.LittleBeasties;
+import superlord.little_beasties.common.item.CoinfrogItem;
 import superlord.little_beasties.common.item.LBBucketItem;
+import superlord.little_beasties.common.item.SnappyWoolbugItem;
+import superlord.little_beasties.common.item.TearTangFruitItem;
+import superlord.little_beasties.common.item.TearTangSushiItem;
 
 public class LBItems {
 	public static final DeferredRegister<Item> SPAWN_EGGS = DeferredRegister.create(ForgeRegistries.ITEMS, LittleBeasties.MOD_ID);
@@ -20,12 +26,54 @@ public class LBItems {
 	public static final RegistryObject<Item> BLUE_MANEFISH_SPAWN_EGG = SPAWN_EGGS.register("blue_manefish_spawn_egg", () -> new ForgeSpawnEggItem(LBEntities.BLUE_MANEFISH, 0x0A7BD1, 0x3A4782, new Item.Properties()));
 	public static final RegistryObject<Item> SAILDRIFTER_SPAWN_EGG = SPAWN_EGGS.register("saildrifter_spawn_egg", () -> new ForgeSpawnEggItem(LBEntities.SAILDRIFTER, 0x46A2CC, 0x0F102D, new Item.Properties()));
 	public static final RegistryObject<Item> TROPICAL_SEADRAGON_SPAWN_EGG = SPAWN_EGGS.register("tropical_seadragon_spawn_egg", () -> new ForgeSpawnEggItem(LBEntities.TROPICAL_SEADRAGON, 0xD85D04, 0x2E58A4, new Item.Properties()));
+	public static final RegistryObject<Item> PROBOSCIS_FISH_SPAWN_EGG = SPAWN_EGGS.register("proboscis_fish_spawn_egg", () -> new ForgeSpawnEggItem(LBEntities.PROBOSCIS_FISH, 0xEDDBD1, 0x40414A, new Item.Properties()));
+	public static final RegistryObject<Item> WAVE_HORNGLIDER_SPAWN_EGG = SPAWN_EGGS.register("wave_hornglider_spawn_egg", () -> new ForgeSpawnEggItem(LBEntities.WAVE_HORNGLIDER, 0x8AEDE4, 0x3DA5A9, new Item.Properties()));
+	public static final RegistryObject<Item> SEALIGHT_SPAWN_EGG = SPAWN_EGGS.register("sealight_spawn_egg", () -> new ForgeSpawnEggItem(LBEntities.SEA_LIGHT, 0x181CFF, 0xBCBFFF, new Item.Properties()));
+	public static final RegistryObject<Item> SNAPPY_WOOLBUG_SPAWN_EGG = SPAWN_EGGS.register("snappy_woolbug_spawn_egg", () -> new ForgeSpawnEggItem(LBEntities.SNAPPY_WOOLBUG, 0x311F16, 0xE6C9B6, new Item.Properties()));
+	public static final RegistryObject<Item> RAINWITCH_SPAWN_EGG = SPAWN_EGGS.register("rainwitch_spawn_egg", () -> new ForgeSpawnEggItem(LBEntities.RAINWITCH, 0xCDCCBD, 0xFAF160, new Item.Properties()));
+	public static final RegistryObject<Item> COINFROG_SPAWN_EGG = SPAWN_EGGS.register("coinfrog_spawn_egg", () -> new ForgeSpawnEggItem(LBEntities.COINFROG, 0x964E19, 0xC78A20, new Item.Properties()));
+	public static final RegistryObject<Item> COINFROG_TADPOLE_SPAWN_EEGG = SPAWN_EGGS.register("coinfrog_tadpole_spawn_egg", () -> new ForgeSpawnEggItem(LBEntities.COINFROG_TADPOLE, 0x7E4114, 0x4C2D16, new Item.Properties()));
+	public static final RegistryObject<Item> MOHOMOOHO_SPAWN_EGG = SPAWN_EGGS.register("mohomooho_spawn_egg", () -> new ForgeSpawnEggItem(LBEntities.MOHOMOOHO, 0x724935, 0xA3877B, new Item.Properties()));
+	public static final RegistryObject<Item> DAYDREAM_RAY_SPAWN_EGG = SPAWN_EGGS.register("daydream_ray_spawn_egg", () -> new ForgeSpawnEggItem(LBEntities.DAYDREAM_RAY, 0xFFEE6A, 0x0746B1, new Item.Properties()));	
 	
 	public static final RegistryObject<Item> TROPICAL_DARTFISH_BUCKET = REGISTER.register("tropical_dartfish_bucket", () -> new LBBucketItem(LBEntities.TROPICAL_DARTFISH, () -> Fluids.WATER, new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<Item> BLUE_MANEFISH_BUCKET = REGISTER.register("blue_manefish_bucket", () -> new LBBucketItem(LBEntities.BLUE_MANEFISH, () -> Fluids.WATER, new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<Item> SAILDRIFTER_BUCKET = REGISTER.register("saildrifter_bucket", () -> new LBBucketItem(LBEntities.SAILDRIFTER, () -> Fluids.WATER, new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<Item> TROPICAL_SEADRAGON_BUCKET = REGISTER.register("tropical_seadragon_bucket", () -> new LBBucketItem(LBEntities.TROPICAL_SEADRAGON, () -> Fluids.WATER, new Item.Properties().stacksTo(1)));
-
+	public static final RegistryObject<Item> PROBOSCIS_FISH_BUCKET = REGISTER.register("proboscis_fish_bucket", () -> new LBBucketItem(LBEntities.PROBOSCIS_FISH, () -> Fluids.WATER, new Item.Properties().stacksTo(1)));
+	public static final RegistryObject<Item> SEALIGHT_BUCKET = REGISTER.register("sealight_bucket", () -> new LBBucketItem(LBEntities.SEA_LIGHT, () -> Fluids.WATER, new Item.Properties().stacksTo(1)));
+	public static final RegistryObject<Item> RAINWITCH_BUCKET = REGISTER.register("rainwitch_bucket", () -> new LBBucketItem(LBEntities.RAINWITCH, () -> Fluids.WATER, new Item.Properties().stacksTo(1)));
+	public static final RegistryObject<Item> COINFROG_TADPOLE_BUCKET = REGISTER.register("coinfrog_tadpole_bucket", () -> new LBBucketItem(LBEntities.COINFROG_TADPOLE, () -> Fluids.WATER, new Item.Properties().stacksTo(1)));
+	public static final RegistryObject<Item> MOHOMOOHO_BUCKET = REGISTER.register("mohomooho_bucket", () -> new LBBucketItem(LBEntities.MOHOMOOHO, () -> Fluids.WATER, new Item.Properties().stacksTo(1)));
+	
+	public static final RegistryObject<Item> GOLDEN_SEADRAGON_SCALE = REGISTER.register("golden_seadragon_scale", () -> new Item(new Item.Properties()));
+	public static final RegistryObject<Item> OPAL_SEADRAGON_SCALE = REGISTER.register("opal_seadragon_scale", () -> new Item(new Item.Properties()));
+	public static final RegistryObject<Item> ORANGE_SEADRAGON_SCALE = REGISTER.register("orange_seadragon_scale", () -> new Item(new Item.Properties()));
+	public static final RegistryObject<Item> RAINBOW_SEADRAGON_SCALE = REGISTER.register("rainbow_seadragon_scale", () -> new Item(new Item.Properties()));
+	
+	public static final RegistryObject<Item> WATERFLY = REGISTER.register("waterfly", () -> new Item(new Item.Properties()));
+	
+	public static final RegistryObject<Item> SNAPPY_WOOLBUG = REGISTER.register("snappy_woolbug", () -> new SnappyWoolbugItem(new Item.Properties()));
+	public static final RegistryObject<Item> COINFROG = REGISTER.register("frogcoin", () -> new CoinfrogItem(new Item.Properties()));
+	
+	public static final RegistryObject<Item> TEARTANG_SPORES = REGISTER.register("teartang_spores", () -> new ItemNameBlockItem(LBBlocks.TEARTANG.get(), new Item.Properties()));
+	public static final RegistryObject<Item> TEARTANG = REGISTER.register("teartang", () -> new Item(new Item.Properties()));
+	public static final RegistryObject<Item> TEARTANG_FRUIT = REGISTER.register("teartang_fruit", () -> new TearTangFruitItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build())));
+	public static final RegistryObject<Item> TEARTANG_SUSHI = REGISTER.register("teartang_sushi", () -> new TearTangSushiItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.3F).fast().build())));
+	
+	public static final RegistryObject<Item> GOLDEN_TROPICAL_SCALEBLOCK = BLOCKS.register("golden_tropical_scaleblock", () -> new BlockItem(LBBlocks.GOLDEN_TROPICAL_SCALEBLOCK.get(), new Item.Properties()));
+	public static final RegistryObject<Item> OPAL_TROPICAL_SCALEBLOCK = BLOCKS.register("opal_tropical_scaleblock", () -> new BlockItem(LBBlocks.OPAL_TROPICAL_SCALEBLOCK.get(), new Item.Properties()));
+	public static final RegistryObject<Item> ORANGE_TROPICAL_SCALEBLOCK = BLOCKS.register("orange_tropical_scaleblock", () -> new BlockItem(LBBlocks.ORANGE_TROPICAL_SCALEBLOCK.get(), new Item.Properties()));
+	public static final RegistryObject<Item> RAINBOW_TROPICAL_SCALEBLOCK = BLOCKS.register("rainbow_tropical_scaleblock", () -> new BlockItem(LBBlocks.RAINBOW_TROPICAL_SCALEBLOCK.get(), new Item.Properties()));
+	
+	public static final RegistryObject<Item> COINFROG_SPAWN = BLOCKS.register("coinfrog_spawn", () -> new BlockItem(LBBlocks.COINFROG_SPAWN.get(), new Item.Properties()));
+	
+	public static final RegistryObject<Item> HOLLOW_BATHYAL_SHELL = BLOCKS.register("hollow_bathyal_shell", () -> new BlockItem(LBBlocks.HOLLOW_BATHYAL_SHELL.get(), new Item.Properties()));
+	public static final RegistryObject<Item> HOLLOW_INTERTIDAL_SHELL = BLOCKS.register("hollow_intertidal_shell", () -> new BlockItem(LBBlocks.HOLLOW_INTERTIDAL_SHELL.get(), new Item.Properties()));
+	public static final RegistryObject<Item> HOLLOW_MIDNIGHT_SHELL = BLOCKS.register("hollow_midnight_shell", () -> new BlockItem(LBBlocks.HOLLOW_MIDNIGHT_SHELL.get(), new Item.Properties()));
+	public static final RegistryObject<Item> HOLLOW_SANDY_SHELL = BLOCKS.register("hollow_sandy_shell", () -> new BlockItem(LBBlocks.HOLLOW_SANDY_SHELL.get(), new Item.Properties()));
+	public static final RegistryObject<Item> HOLLOW_SPUME_SHELL = BLOCKS.register("hollow_spume_shell", () -> new BlockItem(LBBlocks.HOLLOW_SPUME_SHELL.get(), new Item.Properties()));
+	
 	public static final RegistryObject<Item> MARINE_CLAY = BLOCKS.register("marine_clay", () -> new BlockItem(LBBlocks.MARINE_CLAY.get(), new Properties()));
 	public static final RegistryObject<Item> MARINE_TERRACOTTA = BLOCKS.register("marine_terracotta", () -> new BlockItem(LBBlocks.MARINE_TERRACOTTA.get(), new Properties()));
 	public static final RegistryObject<Item> CHISELED_MARINE_TERRACOTTA = BLOCKS.register("chiseled_marine_terracotta", () -> new BlockItem(LBBlocks.CHISELED_MARINE_TERRACOTTA.get(), new Properties()));

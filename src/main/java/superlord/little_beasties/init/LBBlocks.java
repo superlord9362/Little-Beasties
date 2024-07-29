@@ -5,6 +5,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.GlazedTerracottaBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
@@ -13,10 +14,23 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import superlord.little_beasties.LittleBeasties;
+import superlord.little_beasties.common.block.CoinfrogSpawnBlock;
+import superlord.little_beasties.common.block.TearTangBlock;
 
 public class LBBlocks {
 	
 	public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, LittleBeasties.MOD_ID);
+	
+	public static final RegistryObject<Block> GOLDEN_TROPICAL_SCALEBLOCK = REGISTER.register("golden_tropical_scaleblock", () -> new Block(Properties.of().requiresCorrectToolForDrops().strength(1.5F, 4).sound(SoundType.NETHER_BRICKS)));
+	public static final RegistryObject<Block> OPAL_TROPICAL_SCALEBLOCK = REGISTER.register("opal_tropical_scaleblock", () -> new Block(Properties.of().requiresCorrectToolForDrops().strength(1.5F, 4).sound(SoundType.NETHER_BRICKS)));
+	public static final RegistryObject<Block> ORANGE_TROPICAL_SCALEBLOCK = REGISTER.register("orange_tropical_scaleblock", () -> new Block(Properties.of().requiresCorrectToolForDrops().strength(1.5F, 4).sound(SoundType.NETHER_BRICKS)));
+	public static final RegistryObject<Block> RAINBOW_TROPICAL_SCALEBLOCK = REGISTER.register("rainbow_tropical_scaleblock", () -> new Block(Properties.of().requiresCorrectToolForDrops().strength(1.5F, 4).sound(SoundType.NETHER_BRICKS)));
+	
+	public static final RegistryObject<Block> HOLLOW_SANDY_SHELL = REGISTER.register("hollow_sandy_shell", () -> new RotatedPillarBlock(Properties.of().requiresCorrectToolForDrops().strength(1).sound(SoundType.CORAL_BLOCK)));
+	public static final RegistryObject<Block> HOLLOW_SPUME_SHELL = REGISTER.register("hollow_spume_shell", () -> new RotatedPillarBlock(Properties.of().requiresCorrectToolForDrops().strength(1).sound(SoundType.CORAL_BLOCK)));
+	public static final RegistryObject<Block> HOLLOW_INTERTIDAL_SHELL = REGISTER.register("hollow_intertidal_shell", () -> new RotatedPillarBlock(Properties.of().requiresCorrectToolForDrops().strength(1).sound(SoundType.CORAL_BLOCK)));
+	public static final RegistryObject<Block> HOLLOW_BATHYAL_SHELL = REGISTER.register("hollow_bathyal_shell", () -> new RotatedPillarBlock(Properties.of().requiresCorrectToolForDrops().strength(1).sound(SoundType.CORAL_BLOCK)));
+	public static final RegistryObject<Block> HOLLOW_MIDNIGHT_SHELL = REGISTER.register("hollow_midnight_shell", () -> new RotatedPillarBlock(Properties.of().requiresCorrectToolForDrops().strength(1).sound(SoundType.CORAL_BLOCK)));
 	
 	public static final RegistryObject<Block> MARINE_CLAY = REGISTER.register("marine_clay", () -> new Block(Properties.of().mapColor(MapColor.COLOR_ORANGE).instrument(NoteBlockInstrument.FLUTE).strength(0.6F).sound(SoundType.GRAVEL)));
 	
@@ -91,4 +105,8 @@ public class LBBlocks {
 	public static final RegistryObject<Block> WHITE_GLAZED_MARINE_TERRACOTTA = REGISTER.register("white_glazed_marine_terracotta", () -> new GlazedTerracottaBlock(Properties.of().mapColor(DyeColor.WHITE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(1.4F).pushReaction(PushReaction.PUSH_ONLY)));
 	public static final RegistryObject<Block> YELLOW_GLAZED_MARINE_TERRACOTTA = REGISTER.register("yellow_glazed_marine_terracotta", () -> new GlazedTerracottaBlock(Properties.of().mapColor(DyeColor.YELLOW).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(1.4F).pushReaction(PushReaction.PUSH_ONLY)));
 
+	public static final RegistryObject<Block> TEARTANG = REGISTER.register("teartang", () -> new TearTangBlock(Properties.of().instabreak().noCollission().sound(SoundType.SLIME_BLOCK)));
+	
+	public static final RegistryObject<Block> COINFROG_SPAWN = REGISTER.register("coinfrog_spawn", () -> new CoinfrogSpawnBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WATER).instabreak().noOcclusion().noCollission().sound(SoundType.FROGSPAWN).pushReaction(PushReaction.DESTROY)));
+	
 }

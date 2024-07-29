@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "tropical_scaleblock",
+  "key": {
+    "#": {
+      "item": "little_beasties:orange_seadragon_scale"
+    }
+  },
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "result": {
+    "count": 1,
+    "item": "little_beasties:orange_tropical_scaleblock"
+  },
+  "show_notification": true
+}

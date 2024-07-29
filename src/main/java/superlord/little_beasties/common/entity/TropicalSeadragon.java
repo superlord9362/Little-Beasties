@@ -2,17 +2,24 @@ package superlord.little_beasties.common.entity;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
@@ -22,25 +29,38 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.animal.Bucketable;
+import net.minecraft.world.entity.animal.TropicalFish;
 import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
+import superlord.little_beasties.LittleBeasties;
 import superlord.little_beasties.init.LBItems;
 
 public class TropicalSeadragon extends WaterAnimal implements Bucketable {
-	private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(BlueManefish.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(TropicalSeadragon.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> HUNTING = SynchedEntityData.defineId(TropicalSeadragon.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(TropicalSeadragon.class, EntityDataSerializers.INT);
-
+	private int huntTime = 3600;
+	
 	public TropicalSeadragon(EntityType<? extends WaterAnimal> entity, Level world) {
 		super(entity, world);
 		this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
@@ -51,6 +71,11 @@ public class TropicalSeadragon extends WaterAnimal implements Bucketable {
 		super.registerGoals();
 		this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1, 10));
 		this.goalSelector.addGoal(1, new MeleeAttackGoal(this, (double)1.2F, true));
+		this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
+		this.goalSelector.addGoal(0, new HuntFishGoal(this, TropicalFish.class, true));
+		this.goalSelector.addGoal(0, new HuntFishGoal(this, Saildrifter.class, true));
+		this.goalSelector.addGoal(0, new HuntFishGoal(this, BlueManefish.class, true));
+		this.goalSelector.addGoal(2, new TropicalSeadragon.TropicalSeadragonSwimToCoralGoal((double)1.2F, 12, 1));
 		this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
 	}
 	
@@ -106,19 +131,27 @@ public class TropicalSeadragon extends WaterAnimal implements Bucketable {
 		super.defineSynchedData();
 		this.entityData.define(COLOR, 0);
 		this.entityData.define(FROM_BUCKET, false);
+		this.entityData.define(HUNTING, false);
 	}
 	
-
+	public void tick() {
+	      super.tick();
+	      for (int i = huntTime; i > 0; i--) {
+	    	  this.setHunting(true);
+	      }
+	}
 	
 	@Override
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putInt("Color", this.getColor());
+		tag.putBoolean("Hunting", this.isHunting());
 	}
 	
 	@Override
 	public void readAdditionalSaveData(CompoundTag tag) {
 		this.setColor(tag.getInt("Color"));
+		this.setHunting(tag.getBoolean("Hunting"));
 	}
 	
 	public int getColor() {
@@ -127,6 +160,14 @@ public class TropicalSeadragon extends WaterAnimal implements Bucketable {
 
 	public void setColor(int color) {
 		this.entityData.set(COLOR, color);
+	}
+	
+	public boolean isHunting() {
+		return this.entityData.get(HUNTING);
+	}
+	
+	private void setHunting(boolean isHunting) {
+		this.entityData.set(HUNTING, isHunting);
 	}
 	
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
@@ -178,6 +219,102 @@ public class TropicalSeadragon extends WaterAnimal implements Bucketable {
 	@Override
 	public SoundEvent getPickupSound() {
 		return SoundEvents.BUCKET_FILL_FISH;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public class HuntFishGoal extends NearestAttackableTargetGoal {
+		double huntSpeed;
+		TropicalSeadragon dragon;
+		
+		@SuppressWarnings("unchecked")
+		public HuntFishGoal(TropicalSeadragon goalOwner, Class target, boolean checkSight) {
+			super(goalOwner, target, checkSight);
+			this.dragon = goalOwner;
+		}
+		
+		public boolean canUse() {
+			return super.canUse() && dragon.isHunting();
+		}
+		
+		public boolean canContinueToUse() {
+			return super.canContinueToUse() && dragon.isHunting();
+		}
+		
+		public void tick() {
+			super.tick();
+			if (dragon.getTarget() != null) {
+				LivingEntity target = dragon.getTarget();
+				if (!target.is(null) && target.getHealth() == 0) {
+					dragon.huntTime = 3600;
+					dragon.setHunting(false);
+				}
+				if (target instanceof BlueManefish manefish) {
+					if (manefish.isPuffing()) {
+						dragon.huntTime = 3600;
+						dragon.setHunting(false);
+					}
+				}
+			}
+		}
+	}
+	
+	public class TropicalSeadragonSwimToCoralGoal extends MoveToBlockGoal {
+		@SuppressWarnings("unused")
+		private static final int WAIT_TICKS = 40;
+		private static final ResourceLocation RUBBING_LOOT = new ResourceLocation(LittleBeasties.MOD_ID, "entities/tropical_seadragon");
+		protected int ticksWaited;
+
+		public TropicalSeadragonSwimToCoralGoal(double p_28675_, int p_28676_, int p_28677_) {
+			super(TropicalSeadragon.this, p_28675_, p_28676_, p_28677_);
+		}
+
+		public double acceptedDistance() {
+			return 2.0D;
+		}
+
+		public boolean shouldRecalculatePath() {
+			return this.tryTicks % 100 == 0;
+		}
+
+		protected boolean isValidTarget(LevelReader p_28680_, BlockPos p_28681_) {
+			BlockState blockstate = p_28680_.getBlockState(p_28681_);
+			return blockstate.is(BlockTags.CORALS);
+		}
+
+		public void tick() {
+			if (this.isReachedTarget()) {
+				if (this.ticksWaited >= 40) {
+					this.onReachedTarget();
+				} else {
+					++this.ticksWaited;
+				}
+			}
+
+			super.tick();
+		}
+
+		protected void onReachedTarget() {
+			 RandomSource randomsource = TropicalSeadragon.this.getRandom();
+	         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+	         blockpos$mutableblockpos.set(TropicalSeadragon.this.isLeashed() ? TropicalSeadragon.this.getLeashHolder().blockPosition() : TropicalSeadragon.this.blockPosition());
+	         TropicalSeadragon.this.randomTeleport((double)(blockpos$mutableblockpos.getX() + randomsource.nextInt(11) - 5), (double)(blockpos$mutableblockpos.getY() + randomsource.nextInt(5) - 2), (double)(blockpos$mutableblockpos.getZ() + randomsource.nextInt(11) - 5), false);
+	         blockpos$mutableblockpos.set(TropicalSeadragon.this.blockPosition());
+	         LootTable loottable = TropicalSeadragon.this.level().getServer().getLootData().getLootTable(RUBBING_LOOT);
+	         LootParams lootparams = (new LootParams.Builder((ServerLevel)TropicalSeadragon.this.level())).withParameter(LootContextParams.ORIGIN, TropicalSeadragon.this.position()).withParameter(LootContextParams.THIS_ENTITY, TropicalSeadragon.this).create(LootContextParamSets.EMPTY);
+
+	         for(ItemStack itemstack : loottable.getRandomItems(lootparams)) {
+	            TropicalSeadragon.this.level().addFreshEntity(new ItemEntity(TropicalSeadragon.this.level(), (double)blockpos$mutableblockpos.getX() - (double)Mth.sin(TropicalSeadragon.this.yBodyRot * ((float)Math.PI / 180F)), (double)blockpos$mutableblockpos.getY(), (double)blockpos$mutableblockpos.getZ() + (double)Mth.cos(TropicalSeadragon.this.yBodyRot * ((float)Math.PI / 180F)), itemstack));
+	         }
+	      }
+		
+		public boolean canUse() {
+			return super.canUse();
+		}
+
+		public void start() {
+			this.ticksWaited = 0;
+			super.start();
+		}
 	}
 	
 }

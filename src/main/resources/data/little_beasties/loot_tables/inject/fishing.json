@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:fishing",
+  "pools": [
+    {
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "little_beasties:waterfly",
+          "weight": 10,
+          "conditions": [
+            {
+              "condition": "minecraft:location_check",
+              "predicate": {
+                "biome": "minecraft:jungle"
+              }
+            },
+            {
+              "condition": "minecraft:location_check",
+              "predicate": {
+                "structure": "minecraft:bamboo_jungle"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:gameplay/fishing/fish"
+}

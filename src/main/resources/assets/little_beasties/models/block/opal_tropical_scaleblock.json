@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "little_beasties:block/opal_tropical_scaleblock"
+  }
+}

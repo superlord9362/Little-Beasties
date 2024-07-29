@@ -1,0 +1,21 @@
+{
+    "variants": {
+        "": [
+			{
+				"model": "little_beasties:block/coinfrog_spawn"
+			},
+			{
+				"model": "little_beasties:block/coinfrog_spawn",
+				"y": 90
+			},
+			{
+				"model": "little_beasties:block/coinfrog_spawn",
+				"y": 180
+			},
+			{
+				"model": "little_beasties:block/coinfrog_spawn",
+				"y": 270
+			}
+		]
+    }
+}

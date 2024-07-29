@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "little_beasties:block/hollow_sandy_shell_block_top",
+    "side": "little_beasties:block/hollow_sandy_shell_block"
+  }
+}
