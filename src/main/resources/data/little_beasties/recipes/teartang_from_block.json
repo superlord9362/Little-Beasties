@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "little_beasties:teartang_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "little_beasties:teartang"
+  }
+}

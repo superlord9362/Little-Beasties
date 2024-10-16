@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "stained_marine_terracotta",
+  "key": {
+    "#": {
+      "item": "little_beasties:teartang"
+    }
+  },
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "result": {
+    "item": "little_beasties:teartang_block"
+  },
+  "show_notification": true
+}

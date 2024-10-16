@@ -68,6 +68,8 @@ public class LBItems {
 	public static final RegistryObject<Item> ORANGE_TROPICAL_SCALEBLOCK = BLOCKS.register("orange_tropical_scaleblock", () -> new BlockItem(LBBlocks.ORANGE_TROPICAL_SCALEBLOCK.get(), new Item.Properties()));
 	public static final RegistryObject<Item> RAINBOW_TROPICAL_SCALEBLOCK = BLOCKS.register("rainbow_tropical_scaleblock", () -> new BlockItem(LBBlocks.RAINBOW_TROPICAL_SCALEBLOCK.get(), new Item.Properties()));
 	
+	public static final RegistryObject<Item> TEARTANG_BLOCK = BLOCKS.register("teartang_block", () -> new BlockItem(LBBlocks.TEARTANG_BLOCK.get(), new Item.Properties()));
+	
 	public static final RegistryObject<Item> COINFROG_SPAWN = BLOCKS.register("coinfrog_spawn", () -> new PlaceOnWaterBlockItem(LBBlocks.COINFROG_SPAWN.get(), new Item.Properties()));
 	
 	public static final RegistryObject<Item> HOLLOW_BATHYAL_SHELL = BLOCKS.register("hollow_bathyal_shell", () -> new BlockItem(LBBlocks.HOLLOW_BATHYAL_SHELL.get(), new Item.Properties()));
