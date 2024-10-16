@@ -10,6 +10,7 @@ import superlord.little_beasties.LittleBeasties;
 import superlord.little_beasties.common.entity.BlueManefish;
 import superlord.little_beasties.common.entity.Coinfrog;
 import superlord.little_beasties.common.entity.CoinfrogTadpole;
+import superlord.little_beasties.common.entity.Collector;
 import superlord.little_beasties.common.entity.DaydreamRay;
 import superlord.little_beasties.common.entity.Mohomooho;
 import superlord.little_beasties.common.entity.ProboscisFish;
@@ -38,5 +39,6 @@ public class LBEntities {
 	public static final RegistryObject<EntityType<CoinfrogTadpole>> COINFROG_TADPOLE = REGISTER.register("coinfrog_tadpole", () -> EntityType.Builder.<CoinfrogTadpole>of(CoinfrogTadpole::new, MobCategory.WATER_AMBIENT).sized(0.125F, 0.125F).build(new ResourceLocation(LittleBeasties.MOD_ID, "coinfrog_tadpole").toString()));
 	public static final RegistryObject<EntityType<Mohomooho>> MOHOMOOHO = REGISTER.register("mohomooho", () -> EntityType.Builder.<Mohomooho>of(Mohomooho::new, MobCategory.WATER_AMBIENT).sized(0.4375F, 0.4375F).build(new ResourceLocation(LittleBeasties.MOD_ID, "mohomooho").toString()));
 	public static final RegistryObject<EntityType<DaydreamRay>> DAYDREAM_RAY = REGISTER.register("daydream_ray", () -> EntityType.Builder.<DaydreamRay>of(DaydreamRay::new, MobCategory.WATER_AMBIENT).sized(0.875F, 0.3125F).build(new ResourceLocation(LittleBeasties.MOD_ID, "daydream_ray").toString()));
+	public static final RegistryObject<EntityType<Collector>> COLLECTOR = REGISTER.register("collector", () -> EntityType.Builder.<Collector>of(Collector::new, MobCategory.WATER_CREATURE).sized(1, 1.3125F).build(new ResourceLocation(LittleBeasties.MOD_ID, "collector").toString()));
 	
 }

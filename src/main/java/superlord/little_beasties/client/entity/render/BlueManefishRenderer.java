@@ -15,7 +15,7 @@ public class BlueManefishRenderer extends MobRenderer<BlueManefish, EntityModel<
 	private static final ResourceLocation BLUE_MANEFISH_PUFFED = new ResourceLocation(LittleBeasties.MOD_ID, "textures/entity/blue_manefish_spread.png");
 	
 	public BlueManefishRenderer(EntityRendererProvider.Context renderManager) {
-		super(renderManager, new BlueManefishModel(renderManager.bakeLayer(ClientEvents.BLUE_MANEFISH)), 0.4F);
+		super(renderManager, new BlueManefishModel(renderManager.bakeLayer(ClientEvents.BLUE_MANEFISH)), 0.1875F);
 	}
 	
 	public ResourceLocation getTextureLocation(BlueManefish entity) {

@@ -14,8 +14,8 @@ public class TearTangSushiItem extends Item {
 	public ItemStack finishUsingItem(ItemStack p_41409_, Level p_41410_, LivingEntity p_41411_) {
 		if (this.isEdible()) {
 			if (p_41411_.isUnderWater()) {
-				if (p_41411_.getAirSupply() + 6 >= p_41411_.getMaxAirSupply()) p_41411_.setAirSupply(p_41411_.getMaxAirSupply());
-				else p_41411_.setAirSupply(p_41411_.getAirSupply() + 6);
+				if (p_41411_.getAirSupply() + 60 >= p_41411_.getMaxAirSupply()) p_41411_.setAirSupply(p_41411_.getMaxAirSupply());
+				else p_41411_.setAirSupply(p_41411_.getAirSupply() + 180);
 			}
 			return p_41411_.eat(p_41410_, p_41409_);
 		}

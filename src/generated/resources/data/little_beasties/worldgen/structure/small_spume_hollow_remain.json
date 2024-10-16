@@ -1,0 +1,6 @@
+{
+  "type": "little_beasties:small_spume_hollow_remains",
+  "biomes": "#little_beasties:has_structure/spume_hollow_remain",
+  "spawn_overrides": {},
+  "step": "surface_structures"
+}

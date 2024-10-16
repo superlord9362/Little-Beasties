@@ -26,13 +26,13 @@ public class LBBiomeModifier implements BiomeModifier {
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.SAILDRIFTER.get(), 12, 5, 10));
 				}
 				if (biome.is(Biomes.WARM_OCEAN)) {
-					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.BLUE_MANEFISH.get(), 10, 1, 3));
-					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.TROPICAL_SEADRAGON.get(), 8, 1, 2));
+					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.BLUE_MANEFISH.get(), 14, 1, 3));
+					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.TROPICAL_SEADRAGON.get(), 5, 1, 2));
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.PROBOSCIS_FISH.get(), 12, 3, 6));
-					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.WAVE_HORNGLIDER.get(), 5, 1, 2));
+					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.WAVE_HORNGLIDER.get(), 2, 1, 2));
 				}
 				if (biome.is(BiomeTags.IS_OVERWORLD) && !biome.is(Biomes.OCEAN) && !biome.is(Biomes.COLD_OCEAN) && !biome.is(Biomes.FROZEN_OCEAN) && !biome.is(Biomes.DEEP_FROZEN_OCEAN) && !biome.is(Biomes.DEEP_LUKEWARM_OCEAN) && !biome.is(Biomes.DEEP_OCEAN) && !biome.is(Biomes.LUKEWARM_OCEAN) && !biome.is(Biomes.WARM_OCEAN)) {
-					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.SEA_LIGHT.get(), 8, 1, 4));
+					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.SEA_LIGHT.get(), 6, 1, 4));
 				}
 				if (biome.is(BiomeTags.IS_TAIGA)) {
 					builder.getMobSpawnSettings().addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(LBEntities.SNAPPY_WOOLBUG.get(), 9, 1, 2));
@@ -46,10 +46,9 @@ public class LBBiomeModifier implements BiomeModifier {
 				}
 				if (biome.is(BiomeTags.IS_JUNGLE)) {
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.COINFROG.get(), 6, 1, 3));
-					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.COINFROG_TADPOLE.get(), 10, 2, 10));
 				}
 				if (biome.is(Biomes.DEEP_OCEAN)) {
-					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.DAYDREAM_RAY.get(), 4, 1, 3));
+					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.DAYDREAM_RAY.get(), 2, 1, 1));
 				}
 				if (biome.is(Biomes.RIVER)) {
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.MOHOMOOHO.get(), 7, 3, 6));

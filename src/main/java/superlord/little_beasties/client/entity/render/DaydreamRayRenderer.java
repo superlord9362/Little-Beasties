@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import superlord.little_beasties.LittleBeasties;
 import superlord.little_beasties.client.ClientEvents;
 import superlord.little_beasties.client.entity.model.DaydreamRayModel;
+import superlord.little_beasties.client.entity.render.layer.DaydreamRayLayer;
 import superlord.little_beasties.common.entity.DaydreamRay;
 
 public class DaydreamRayRenderer extends MobRenderer<DaydreamRay, EntityModel<DaydreamRay>> {
@@ -17,7 +18,8 @@ public class DaydreamRayRenderer extends MobRenderer<DaydreamRay, EntityModel<Da
 	private static final ResourceLocation DAYDREAM_RAY = new ResourceLocation(LittleBeasties.MOD_ID, "textures/entity/daydream_ray.png");
 
 	public DaydreamRayRenderer(EntityRendererProvider.Context renderManager) {
-		super(renderManager, new DaydreamRayModel(renderManager.bakeLayer(ClientEvents.DAYDREAM_RAY)), 0.4F);
+		super(renderManager, new DaydreamRayModel(renderManager.bakeLayer(ClientEvents.DAYDREAM_RAY)), 0.875F);
+		this.addLayer(new DaydreamRayLayer(this));
 	}
 
 	public ResourceLocation getTextureLocation(DaydreamRay entity) {

@@ -58,6 +58,14 @@ public class Sealight extends WaterAnimal implements Bucketable {
 		this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
 	}
 
+	public boolean requiresCustomPersistence() {
+		return super.requiresCustomPersistence() || this.fromBucket();
+	}
+
+	public boolean removeWhenFarAway(double p_27492_) {
+		return !this.fromBucket() && !this.hasCustomName();
+	}
+
 	protected PathNavigation createNavigation(Level p_28362_) {
 		return new WaterBoundPathNavigation(this, p_28362_);
 	}
@@ -122,13 +130,16 @@ public class Sealight extends WaterAnimal implements Bucketable {
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putInt("Color", this.getColor());
-		tag	.putInt("DarkTicksRemaining", this.getDarkTicksRemaining());
+		tag.putInt("DarkTicksRemaining", this.getDarkTicksRemaining());
+		tag.putBoolean("FromBucket", this.fromBucket());
 	}
 
 	@Override
 	public void readAdditionalSaveData(CompoundTag tag) {
+		super.readAdditionalSaveData(tag);
 		this.setColor(tag.getInt("Color"));
 		this.setDarkTicks(tag.getInt("DarkTicksRemaining"));
+		this.setFromBucket(tag.getBoolean("FromBucket"));
 	}
 
 	public boolean hurt(DamageSource p_147114_, float p_147115_) {
@@ -189,7 +200,7 @@ public class Sealight extends WaterAnimal implements Bucketable {
 
 	@Override
 	public ItemStack getBucketItemStack() {
-		return new ItemStack(LBItems.BLUE_MANEFISH_BUCKET.get());
+		return new ItemStack(LBItems.SEALIGHT_BUCKET.get());
 	}
 
 	@Override

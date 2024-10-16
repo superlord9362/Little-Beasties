@@ -1,0 +1,18 @@
+{
+  "type": "little_beasties:collectors_hut_adventure",
+  "biomes": "#little_beasties:has_structure/collectors_hut",
+  "spawn_overrides": {
+    "water_creature": {
+      "bounding_box": "piece",
+      "spawns": [
+        {
+          "type": "little_beasties:collector",
+          "maxCount": 1,
+          "minCount": 1,
+          "weight": 1
+        }
+      ]
+    }
+  },
+  "step": "surface_structures"
+}

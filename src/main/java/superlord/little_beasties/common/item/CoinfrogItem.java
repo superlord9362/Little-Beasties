@@ -34,6 +34,7 @@ public class CoinfrogItem extends Item {
 			if (world.mayInteract(player, blockpos) && player.mayUseItemAt(blockpos, blockraytraceresult.getDirection(), itemstack)) {
 				Coinfrog coinfrog = new Coinfrog(LBEntities.COINFROG.get(), world);
 				coinfrog.setPos(raytraceresult.getLocation());
+				if (itemstack.hasCustomHoverName()) coinfrog.setCustomName(itemstack.getHoverName());
 				world.addFreshEntity(coinfrog);
 				if (!player.getAbilities().instabuild) {
 					itemstack.shrink(1);

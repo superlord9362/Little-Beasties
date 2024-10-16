@@ -17,7 +17,7 @@ public class CoinfrogTadpoleRenderer extends MobRenderer<CoinfrogTadpole, Entity
 	private static final ResourceLocation COINFROG_TADPOLE = new ResourceLocation(LittleBeasties.MOD_ID, "textures/entity/coinfrog/coinfrog_tadpole.png");
 	
 	public CoinfrogTadpoleRenderer(EntityRendererProvider.Context renderManager) {
-		super(renderManager, new CoinfrogTadpoleModel(renderManager.bakeLayer(ClientEvents.COINFROG_TADPOLE)), 0.4F);
+		super(renderManager, new CoinfrogTadpoleModel(renderManager.bakeLayer(ClientEvents.COINFROG_TADPOLE)), 0.125F);
 	}
 	
 	public ResourceLocation getTextureLocation(CoinfrogTadpole entity) {

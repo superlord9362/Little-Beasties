@@ -17,7 +17,7 @@ public class CoinfrogRenderer extends MobRenderer<Coinfrog, EntityModel<Coinfrog
 	private static final ResourceLocation COINFROG = new ResourceLocation(LittleBeasties.MOD_ID, "textures/entity/coinfrog/coinfrog.png");
 	
 	public CoinfrogRenderer(EntityRendererProvider.Context renderManager) {
-		super(renderManager, new CoinfrogModel(renderManager.bakeLayer(ClientEvents.COINFROG)), 0.4F);
+		super(renderManager, new CoinfrogModel(renderManager.bakeLayer(ClientEvents.COINFROG)), 0.4375F);
 	}
 	
 	public ResourceLocation getTextureLocation(Coinfrog entity) {

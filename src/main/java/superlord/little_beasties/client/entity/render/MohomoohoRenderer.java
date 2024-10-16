@@ -20,7 +20,7 @@ public class MohomoohoRenderer extends MobRenderer<Mohomooho, EntityModel<Mohomo
 	private static final ResourceLocation BROWN = new ResourceLocation(LittleBeasties.MOD_ID, "textures/entity/mohomooho/brown.png");
 
 	public MohomoohoRenderer(EntityRendererProvider.Context renderManager) {
-		super(renderManager, new MohomoohoModel(renderManager.bakeLayer(ClientEvents.MOHOMOOHO)), 0.4F);
+		super(renderManager, new MohomoohoModel(renderManager.bakeLayer(ClientEvents.MOHOMOOHO)), 0.4375F);
 	}
 
 	public ResourceLocation getTextureLocation(Mohomooho entity) {

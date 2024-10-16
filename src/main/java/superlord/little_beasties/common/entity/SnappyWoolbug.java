@@ -1,6 +1,10 @@
 package superlord.little_beasties.common.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -31,6 +35,7 @@ import net.minecraft.world.level.LevelAccessor;
 import superlord.little_beasties.init.LBItems;
 
 public class SnappyWoolbug extends PathfinderMob {
+	private static final EntityDataAccessor<Boolean> FROM_ITEM = SynchedEntityData.defineId(SnappyWoolbug.class, EntityDataSerializers.BOOLEAN);
 
 	public SnappyWoolbug(EntityType<? extends PathfinderMob> p_27557_, Level p_27558_) {
 		super(p_27557_, p_27558_);
@@ -47,6 +52,14 @@ public class SnappyWoolbug extends PathfinderMob {
 		this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
 	}
 
+	public boolean requiresCustomPersistence() {
+		return super.requiresCustomPersistence() || this.fromItem();
+	}
+
+	public boolean removeWhenFarAway(double p_27492_) {
+		return !this.fromItem() && !this.hasCustomName();
+	}
+
 	public static AttributeSupplier.Builder createAttributes() {
 		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.MOVEMENT_SPEED, (double)0.2F).add(Attributes.ATTACK_DAMAGE, 1.0D);
 	}
@@ -59,12 +72,51 @@ public class SnappyWoolbug extends PathfinderMob {
 
 		return flag;
 	}
+	
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		this.entityData.define(FROM_ITEM, false);
+	}
+	
+	
+	@Override
+	public void addAdditionalSaveData(CompoundTag tag) {
+		super.addAdditionalSaveData(tag);
+		tag.putBoolean("FromItem", this.fromItem());
+	}
+
+	@Override
+	public void readAdditionalSaveData(CompoundTag tag) {
+		super.readAdditionalSaveData(tag);
+		this.setFromItem(tag.getBoolean("FromItem"));
+	}
+
+	public void aiStep() {
+		super.aiStep();
+		for (Player entity : this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(8, 8, 8))) {
+			if (entity.getItemBySlot(EquipmentSlot.FEET).getItem() == Items.AIR && !entity.isCreative()) {
+				this.setTarget(entity);
+			} else this.setTarget(null);
+		}
+	}
+	
+	public boolean fromItem() {
+		return this.entityData.get(FROM_ITEM);
+	}
+
+	public void setFromItem(boolean p_148834_) {
+		this.entityData.set(FROM_ITEM, p_148834_);
+	}
 
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		Item item = stack.getItem();
 		if (item == Items.AIR && this.getTarget() == null) {
-			ItemEntity itementity = new ItemEntity(this.level(), this.getX(), this.getY() + 1.0D, this.getZ(), new ItemStack(LBItems.SNAPPY_WOOLBUG.get()));
+			ItemStack dropStack = new ItemStack(LBItems.SNAPPY_WOOLBUG.get());
+			if (this.hasCustomName()) {
+				dropStack.setHoverName(getCustomName());
+			}
+			ItemEntity itementity = new ItemEntity(this.level(), this.getX(), this.getY() + 1.0D, this.getZ(), dropStack);
 			this.level().addFreshEntity(itementity);
 			this.discard();
 			return InteractionResult.SUCCESS;

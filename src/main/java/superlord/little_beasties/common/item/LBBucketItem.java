@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
@@ -19,6 +20,15 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import superlord.little_beasties.common.entity.BlueManefish;
+import superlord.little_beasties.common.entity.CoinfrogTadpole;
+import superlord.little_beasties.common.entity.Mohomooho;
+import superlord.little_beasties.common.entity.ProboscisFish;
+import superlord.little_beasties.common.entity.Rainwitch;
+import superlord.little_beasties.common.entity.Saildrifter;
+import superlord.little_beasties.common.entity.Sealight;
+import superlord.little_beasties.common.entity.TropicalDartfish;
+import superlord.little_beasties.common.entity.TropicalSeadragon;
 
 public class LBBucketItem extends BucketItem {
 	
@@ -50,7 +60,41 @@ public class LBBucketItem extends BucketItem {
 	}
 	
 	private void spawn(ServerLevel world, ItemStack stack, BlockPos pos) {
-		this.entityTypeSupplier.get().spawn(world, stack, (Player)null, pos, MobSpawnType.BUCKET, true, false);
+		Entity entity = this.entityTypeSupplier.get().spawn(world, stack, (Player)null, pos, MobSpawnType.BUCKET, true, false);
+		if (stack.hasCustomHoverName()) entity.setCustomName(stack.getHoverName());
+		if (entity != null) {
+			if (entity instanceof TropicalSeadragon) {
+				((TropicalSeadragon)entity).setFromBucket(true);
+				if (stack.hasTag()) ((TropicalSeadragon)entity).setColor(stack.getTag().getInt("Color"));
+			}
+			if (entity instanceof TropicalDartfish) {
+				((TropicalDartfish)entity).setFromBucket(true);
+			}
+			if (entity instanceof BlueManefish) {
+				((BlueManefish)entity).setFromBucket(true);
+			}
+			if (entity instanceof Saildrifter) {
+				((Saildrifter)entity).setFromBucket(true);
+				if (stack.hasTag()) ((Saildrifter)entity).setColor(stack.getTag().getInt("Color"));
+			}
+			if (entity instanceof ProboscisFish) {
+				((ProboscisFish)entity).setFromBucket(true);
+			}
+			if (entity instanceof Sealight) {
+				((Sealight)entity).setFromBucket(true);
+				if (stack.hasTag()) ((Sealight)entity).setColor(stack.getTag().getInt("Color"));
+			}
+			if (entity instanceof Rainwitch) {
+				((Rainwitch)entity).setFromBucket(true);
+			}
+			if (entity instanceof CoinfrogTadpole) {
+				((CoinfrogTadpole)entity).setFromBucket(true);
+			}
+			if (entity instanceof Mohomooho) {
+				((Mohomooho)entity).setFromBucket(true);
+				if (stack.hasTag()) ((Mohomooho)entity).setColor(stack.getTag().getInt("Color"));
+			}
+		}
 	}
 	
 	private final Supplier<? extends EntityType<?>> entityTypeSupplier;

@@ -9,32 +9,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import superlord.little_beasties.LittleBeasties;
-import superlord.little_beasties.client.entity.model.BlueManefishModel;
-import superlord.little_beasties.client.entity.model.CoinfrogModel;
-import superlord.little_beasties.client.entity.model.CoinfrogTadpoleModel;
-import superlord.little_beasties.client.entity.model.DaydreamRayModel;
-import superlord.little_beasties.client.entity.model.MohomoohoModel;
-import superlord.little_beasties.client.entity.model.ProboscisFishModel;
-import superlord.little_beasties.client.entity.model.RainwitchModel;
-import superlord.little_beasties.client.entity.model.SaildrifterModel;
-import superlord.little_beasties.client.entity.model.SealightModel;
-import superlord.little_beasties.client.entity.model.SnappyWoolbugModel;
-import superlord.little_beasties.client.entity.model.TropicalDartfishModel;
-import superlord.little_beasties.client.entity.model.TropicalSeadragonModel;
-import superlord.little_beasties.client.entity.model.WaveHorngliderModel;
-import superlord.little_beasties.client.entity.render.BlueManefishRenderer;
-import superlord.little_beasties.client.entity.render.CoinfrogRenderer;
-import superlord.little_beasties.client.entity.render.CoinfrogTadpoleRenderer;
-import superlord.little_beasties.client.entity.render.DaydreamRayRenderer;
-import superlord.little_beasties.client.entity.render.MohomoohoRenderer;
-import superlord.little_beasties.client.entity.render.ProboscisFishRenderer;
-import superlord.little_beasties.client.entity.render.RainwitchRenderer;
-import superlord.little_beasties.client.entity.render.SaildrifterRenderer;
-import superlord.little_beasties.client.entity.render.SealightRenderer;
-import superlord.little_beasties.client.entity.render.SnappyWoolbugRenderer;
-import superlord.little_beasties.client.entity.render.TropicalDartfishRenderer;
-import superlord.little_beasties.client.entity.render.TropicalSeadragonRenderer;
-import superlord.little_beasties.client.entity.render.WaveHorngliderRenderer;
+import superlord.little_beasties.client.entity.model.*;
+import superlord.little_beasties.client.entity.render.*;
 import superlord.little_beasties.init.LBEntities;
 
 @OnlyIn(Dist.CLIENT)
@@ -54,7 +30,8 @@ public class ClientEvents {
 	public static ModelLayerLocation COINFROG_TADPOLE = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "coinfrog_tadpole"), "coinfrog_tadpole");
 	public static ModelLayerLocation MOHOMOOHO = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "mohomooho"), "mohomooho");
 	public static ModelLayerLocation DAYDREAM_RAY = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "daydream_ray"), "daydream_ray");
-	
+	public static ModelLayerLocation COLLECTOR = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "collector"), "collector");
+
 	@SubscribeEvent
 	public static void init(final FMLClientSetupEvent event) {
 		ClientProxy.setupBlockRenders();
@@ -75,6 +52,7 @@ public class ClientEvents {
 		event.registerEntityRenderer(LBEntities.COINFROG_TADPOLE.get(), CoinfrogTadpoleRenderer::new);	
 		event.registerEntityRenderer(LBEntities.MOHOMOOHO.get(), MohomoohoRenderer::new);
 		event.registerEntityRenderer(LBEntities.DAYDREAM_RAY.get(), DaydreamRayRenderer::new);
+		event.registerEntityRenderer(LBEntities.COLLECTOR.get(), CollectorRenderer::new);
 	}
 	
 	@SubscribeEvent
@@ -92,6 +70,7 @@ public class ClientEvents {
 		event.registerLayerDefinition(COINFROG_TADPOLE, CoinfrogTadpoleModel::createBodyLayer);	
 		event.registerLayerDefinition(MOHOMOOHO, MohomoohoModel::createBodyLayer);
 		event.registerLayerDefinition(DAYDREAM_RAY, DaydreamRayModel::createBodyLayer);
+		event.registerLayerDefinition(COLLECTOR, CollectorModel::createBodyLayer);
 	}
 	
 }

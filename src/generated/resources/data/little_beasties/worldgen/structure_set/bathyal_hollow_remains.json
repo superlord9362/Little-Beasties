@@ -1,0 +1,22 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 3512234,
+    "separation": 4,
+    "spacing": 24
+  },
+  "structures": [
+    {
+      "structure": "little_beasties:bathyal_hollow_remain",
+      "weight": 4
+    },
+    {
+      "structure": "little_beasties:small_bathyal_hollow_remain",
+      "weight": 1
+    },
+    {
+      "structure": "little_beasties:big_bathyal_hollow_remain",
+      "weight": 4
+    }
+  ]
+}

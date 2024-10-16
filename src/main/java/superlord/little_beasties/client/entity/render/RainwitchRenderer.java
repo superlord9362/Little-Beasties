@@ -15,7 +15,7 @@ public class RainwitchRenderer extends MobRenderer<Rainwitch, EntityModel<Rainwi
 	private static final ResourceLocation FLYING_RAINWITCH = new ResourceLocation(LittleBeasties.MOD_ID, "textures/entity/rainwitch/flying_rainwitch.png");
 	
 	public RainwitchRenderer(EntityRendererProvider.Context renderManager) {
-		super(renderManager, new RainwitchModel(renderManager.bakeLayer(ClientEvents.RAINWITCH)), 0.4F);
+		super(renderManager, new RainwitchModel(renderManager.bakeLayer(ClientEvents.RAINWITCH)), 0.1875F);
 	}
 	
 	public ResourceLocation getTextureLocation(Rainwitch entity) {

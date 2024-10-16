@@ -1,0 +1,6 @@
+{
+  "type": "little_beasties:big_sandy_hollow_remains",
+  "biomes": "#little_beasties:has_structure/sandy_hollow_remain",
+  "spawn_overrides": {},
+  "step": "surface_structures"
+}

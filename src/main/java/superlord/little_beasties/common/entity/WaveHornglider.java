@@ -31,13 +31,21 @@ public class WaveHornglider extends WaterAnimal {
 		this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
 		this.lookControl = new SmoothSwimmingLookControl(this, 10);
 	}
-	
+
 	protected void registerGoals() {
 		super.registerGoals();
 		this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
 		this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, EntitySelector.NO_SPECTATORS::test));
 		this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1, 10));
 		this.goalSelector.addGoal(1, new FollowWaveHorngliderGoal(this));
+	}
+
+	public boolean requiresCustomPersistence() {
+		return super.requiresCustomPersistence();
+	}
+
+	public boolean removeWhenFarAway(double p_27492_) {
+		return !this.hasCustomName();
 	}
 
 	protected PathNavigation createNavigation(Level p_28362_) {
@@ -78,7 +86,7 @@ public class WaveHornglider extends WaterAnimal {
 		}
 		super.aiStep();
 	}
-	
+
 	public class FollowWaveHorngliderGoal extends Goal {
 		private final Mob entity;
 
@@ -106,5 +114,5 @@ public class WaveHornglider extends WaterAnimal {
 			}
 		}
 	}
-	
+
 }

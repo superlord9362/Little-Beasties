@@ -62,11 +62,19 @@ public class TropicalDartfish extends WaterAnimal implements Bucketable {
 		this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
 		this.lookControl = new SmoothSwimmingLookControl(this, 10);
 	}
-	
+
 	@Override
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		this.entityData.define(FROM_BUCKET, false);
+	}
+
+	public boolean requiresCustomPersistence() {
+		return super.requiresCustomPersistence() || this.fromBucket();
+	}
+
+	public boolean removeWhenFarAway(double p_27492_) {
+		return !this.fromBucket() && !this.hasCustomName();
 	}
 
 	protected PathNavigation createNavigation(Level p_28362_) {
@@ -77,7 +85,7 @@ public class TropicalDartfish extends WaterAnimal implements Bucketable {
 		if (this.isEffectiveAi() && this.isInWater()) {
 			this.moveRelative(this.getSpeed(), p_28383_);
 			this.move(MoverType.SELF, this.getDeltaMovement());
-			this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+			this.setDeltaMovement(this.getDeltaMovement().scale(0.6D));
 			if (this.getTarget() == null) {
 				this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
 			}
@@ -113,7 +121,7 @@ public class TropicalDartfish extends WaterAnimal implements Bucketable {
 		this.targetSelector.addGoal(0, (new HurtByTargetGoal(this)).setAlertOthers());
 		this.goalSelector.addGoal(5, new BoidGoal(this, 0.5f, 0.9f, 8 / 20f, 1 / 20f));
 		this.goalSelector.addGoal(3, new StayInWaterGoal(this));
-		this.goalSelector.addGoal(2, new LimitSpeedAndLookInVelocityDirectionGoal(this, 0.3f, 0.8f));
+		this.goalSelector.addGoal(2, new LimitSpeedAndLookInVelocityDirectionGoal(this, 0.3f, 0.6f));
 	}
 
 	protected SoundEvent getFlopSound() {
@@ -150,6 +158,16 @@ public class TropicalDartfish extends WaterAnimal implements Bucketable {
 
 	public boolean isFollower() {
 		return this.leader != null && this.leader.isAlive();
+	}
+	
+	public void addAdditionalSaveData(CompoundTag tag) {
+		super.addAdditionalSaveData(tag);
+		tag.putBoolean("FromBucket", this.fromBucket());
+	}
+
+	public void readAdditionalSaveData(CompoundTag tag) {
+		super.readAdditionalSaveData(tag);
+		this.setFromBucket(tag.getBoolean("FromBucket"));
 	}
 
 	public TropicalDartfish startFollowing(TropicalDartfish p_27526_) {

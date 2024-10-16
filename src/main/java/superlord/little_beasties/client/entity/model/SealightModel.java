@@ -69,7 +69,7 @@ public class SealightModel extends EntityModel<Sealight> {
 
 	@Override
 	public void setupAnim(Sealight entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.body.xRot = headPitch * ((float)Math.PI / 180F);
+		this.body.xRot = headPitch * ((float)Math.PI / 180F) + 1.5F;
 		this.body.yRot = netHeadYaw * ((float)Math.PI / 180F);
 		this.fin.yRot = 0.35F * Mth.sin(0.2F * ageInTicks);
 		this.rightFin.yRot = 0.45F * Mth.cos(0.2F * ageInTicks);

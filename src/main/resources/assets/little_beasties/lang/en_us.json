@@ -12,6 +12,7 @@
 	"entity.little_beasties.coinfrog_tadpole": "Coinfrog Tadpole",
 	"entity.little_beasties.mohomooho": "Mohomooho",
 	"entity.little_beasties.daydream_ray": "Daydream Ray",
+	"entity.little_beasties.collector": "Collector",
 	
 	"item.little_beasties.tropical_dartfish_spawn_egg": "Tropical Dartfish Spawn Egg",
 	"item.little_beasties.blue_manefish_spawn_egg": "Blue Manefish Spawn Egg",
@@ -26,6 +27,7 @@
 	"item.little_beasties.coinfrog_tadpole_spawn_egg": "Coinfrog Tadpole Spawn Egg",
 	"item.little_beasties.mohomooho_spawn_egg": "Mohomooho Spawn Egg",
 	"item.little_beasties.daydream_ray_spawn_egg": "Daydream Ray Spawn Egg",
+	"item.little_beasties.collector_spawn_egg": "Collector Spawn Egg",
 		
 	"item.little_beasties.tropical_dartfish_bucket": "Bucket of Tropical Dartfish",
 	"item.little_beasties.blue_manefish_bucket": "Bucket of Blue Manefish",

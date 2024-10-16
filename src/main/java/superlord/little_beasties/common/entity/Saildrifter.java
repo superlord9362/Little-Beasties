@@ -56,13 +56,21 @@ public class Saildrifter extends WaterAnimal implements Bucketable {
 	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(Saildrifter.class, EntityDataSerializers.INT);
 	private Saildrifter leader;
 	private int schoolSize = 1;
-	
+
 	public Saildrifter(EntityType<? extends WaterAnimal> entity, Level world) {
 		super(entity, world);
 		this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
 		this.lookControl = new SmoothSwimmingLookControl(this, 10);
 	}
-	
+
+	public boolean requiresCustomPersistence() {
+		return super.requiresCustomPersistence() || this.fromBucket();
+	}
+
+	public boolean removeWhenFarAway(double p_27492_) {
+		return !this.fromBucket() && !this.hasCustomName();
+	}
+
 	public void registerGoals() {
 		super.registerGoals();
 		this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
@@ -73,7 +81,7 @@ public class Saildrifter extends WaterAnimal implements Bucketable {
 		this.goalSelector.addGoal(3, new StayInWaterGoal(this));
 		this.goalSelector.addGoal(2, new LimitSpeedAndLookInVelocityDirectionGoal(this, 0.1f, 0.5f));
 	}
-	
+
 	protected PathNavigation createNavigation(Level p_28362_) {
 		return new WaterBoundPathNavigation(this, p_28362_);
 	}
@@ -90,7 +98,7 @@ public class Saildrifter extends WaterAnimal implements Bucketable {
 			super.travel(p_28383_);
 		}
 	}
-	
+
 	protected SoundEvent getFlopSound() {
 		return SoundEvents.COD_FLOP;
 	}
@@ -102,7 +110,7 @@ public class Saildrifter extends WaterAnimal implements Bucketable {
 	public static AttributeSupplier.Builder createAttributes() {
 		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 3.0D);
 	}
-	
+
 	public void aiStep() {
 		if (!this.isInWater() && this.onGround() && this.verticalCollision) {
 			this.setDeltaMovement(this.getDeltaMovement().add((double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F), (double)0.4F, (double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F)));
@@ -112,24 +120,27 @@ public class Saildrifter extends WaterAnimal implements Bucketable {
 		}
 		super.aiStep();
 	}
-	
+
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		this.entityData.define(COLOR, 0);
 		this.entityData.define(FROM_BUCKET, false);
 	}
-	
+
 	@Override
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putInt("Color", this.getColor());
+		tag.putBoolean("FromBucket", this.fromBucket());
 	}
-	
+
 	@Override
 	public void readAdditionalSaveData(CompoundTag tag) {
+		super.readAdditionalSaveData(tag);
 		this.setColor(tag.getInt("Color"));
+		this.setFromBucket(tag.getBoolean("FromBucket"));
 	}
-	
+
 	public int getColor() {
 		return this.entityData.get(COLOR);
 	}
@@ -137,7 +148,7 @@ public class Saildrifter extends WaterAnimal implements Bucketable {
 	public void setColor(int color) {
 		this.entityData.set(COLOR, color);
 	}
-	
+
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		Item item = stack.getItem();
@@ -147,7 +158,7 @@ public class Saildrifter extends WaterAnimal implements Bucketable {
 			return super.mobInteract(player, hand);
 		}
 	}
-	
+
 	@Override
 	public boolean fromBucket() {
 		return this.entityData.get(FROM_BUCKET);
@@ -177,7 +188,7 @@ public class Saildrifter extends WaterAnimal implements Bucketable {
 	public ItemStack getBucketItemStack() {
 		return new ItemStack(LBItems.SAILDRIFTER_BUCKET.get());
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
 		this.setColor(random.nextInt(16));
@@ -193,7 +204,7 @@ public class Saildrifter extends WaterAnimal implements Bucketable {
 	public SoundEvent getPickupSound() {
 		return SoundEvents.BUCKET_FILL_FISH;
 	}
-	
+
 	public int getMaxSpawnClusterSize() {
 		return this.getMaxSchoolSize();
 	}
@@ -266,7 +277,7 @@ public class Saildrifter extends WaterAnimal implements Bucketable {
 			p_27536_.startFollowing(this);
 		});
 	}
-	
+
 	public static class SchoolSpawnGroupData implements SpawnGroupData {
 		public final Saildrifter leader;
 
@@ -332,7 +343,7 @@ public class Saildrifter extends WaterAnimal implements Bucketable {
 			}
 		}
 	}
-	
+
 	class BoidGoal extends Goal {
 		public static final Logger LOGGER = LogManager.getLogger();
 
@@ -515,5 +526,5 @@ public class Saildrifter extends WaterAnimal implements Bucketable {
 			mob.lookAt(EntityAnchorArgument.Anchor.EYES, mob.position().add(velocity.scale(3))); // Scale by 3 just to be sure it is roughly the right direction
 		}
 	}
-	
+
 }

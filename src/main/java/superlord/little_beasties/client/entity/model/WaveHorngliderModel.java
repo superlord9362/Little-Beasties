@@ -62,7 +62,7 @@ public class WaveHorngliderModel extends EntityModel<WaveHornglider> {
 		this.body.yRot = netHeadYaw * ((float)Math.PI / 180F);
 		this.rightWing.zRot = Mth.sin(0.15F * ageInTicks) * 0.2F;
 		this.leftWing.zRot = Mth.sin(0.15F * ageInTicks) * -0.2F;
-		this.tail.xRot = Mth.sin(0.15F * ageInTicks) * 0.45F;
+		this.tail.xRot = Mth.sin(0.15F * ageInTicks) * 0.25F;
 		this.tailFin.xRot = Mth.sin(0.15F * ageInTicks) * 0.2F;
 	}
 

@@ -17,7 +17,7 @@ public class WaveHorngliderRenderer extends MobRenderer<WaveHornglider, EntityMo
 	private static final ResourceLocation WAVE_HORNGLIDER = new ResourceLocation(LittleBeasties.MOD_ID, "textures/entity/wave_hornglider.png");
 	
 	public WaveHorngliderRenderer(EntityRendererProvider.Context renderManager) {
-		super(renderManager, new WaveHorngliderModel(renderManager.bakeLayer(ClientEvents.WAVE_HORNGLIDER)), 0.4F);
+		super(renderManager, new WaveHorngliderModel(renderManager.bakeLayer(ClientEvents.WAVE_HORNGLIDER)), 1.3125F);
 	}
 	
 	public ResourceLocation getTextureLocation(WaveHornglider entity) {

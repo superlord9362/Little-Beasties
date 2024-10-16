@@ -20,7 +20,7 @@ public class TropicalSeadragonRenderer extends MobRenderer<TropicalSeadragon, En
 	private static final ResourceLocation GOLDEN = new ResourceLocation(LittleBeasties.MOD_ID, "textures/entity/tropical_seadragon/golden.png");
 	
 	public TropicalSeadragonRenderer(EntityRendererProvider.Context renderManager) {
-		super(renderManager, new TropicalSeadragonModel(renderManager.bakeLayer(ClientEvents.TROPICAL_SEADRAGON)), 0.4F);
+		super(renderManager, new TropicalSeadragonModel(renderManager.bakeLayer(ClientEvents.TROPICAL_SEADRAGON)), 0.5F);
 	}
 	
 	public ResourceLocation getTextureLocation(TropicalSeadragon entity) {

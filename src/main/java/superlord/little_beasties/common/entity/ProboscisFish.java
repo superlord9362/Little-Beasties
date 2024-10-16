@@ -59,15 +59,26 @@ import superlord.little_beasties.init.LBItems;
 
 public class ProboscisFish extends WaterAnimal implements Bucketable {
 	private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(ProboscisFish.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> PICKING = SynchedEntityData.defineId(ProboscisFish.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> ACTIVE_PICKING = SynchedEntityData.defineId(ProboscisFish.class, EntityDataSerializers.BOOLEAN);
 	private ProboscisFish leader;
 	private int schoolSize = 1;
-	
+	private int coralPicking = 6000;
+
 	public ProboscisFish(EntityType<? extends WaterAnimal> p_30341_, Level p_30342_) {
 		super(p_30341_, p_30342_);
 		this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
 		this.lookControl = new SmoothSwimmingLookControl(this, 10);
 	}
-	
+
+	public boolean requiresCustomPersistence() {
+		return super.requiresCustomPersistence() || this.fromBucket();
+	}
+
+	public boolean removeWhenFarAway(double p_27492_) {
+		return !this.fromBucket() && !this.hasCustomName();
+	}
+
 	protected void registerGoals() {
 		super.registerGoals();
 		this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
@@ -75,7 +86,7 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 		this.goalSelector.addGoal(1, new ProboscisFishFollowFlockLeaderGoal(this));
 		this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1, 10));
 	}
-	
+
 	protected PathNavigation createNavigation(Level p_28362_) {
 		return new WaterBoundPathNavigation(this, p_28362_);
 	}
@@ -114,7 +125,7 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 		}
 		super.aiStep();
 	}
-	
+
 	public int getMaxSpawnClusterSize() {
 		return this.getMaxSchoolSize();
 	}
@@ -162,7 +173,41 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 				this.schoolSize = 1;
 			}
 		}
+		for (int i = coralPicking; i > 0; i--) {
+			if (i == 0) this.setPicking(true);
+		}
+	}
 
+	@Override
+	public void addAdditionalSaveData(CompoundTag tag) {
+		super.addAdditionalSaveData(tag);
+		tag.putBoolean("Picking", this.isPicking());
+		tag.putBoolean("ActivePicking", this.isActivelyPicking());
+		tag.putBoolean("FromBucket", this.fromBucket());
+	}
+
+	@Override
+	public void readAdditionalSaveData(CompoundTag tag) {
+		super.readAdditionalSaveData(tag);
+		this.setFromBucket(tag.getBoolean("FromBucket"));
+		this.setPicking(tag.getBoolean("Picking"));
+		this.setActivelyPicking(tag.getBoolean("ActivePicking"));
+	}
+
+	public boolean isPicking() {
+		return this.entityData.get(PICKING);
+	}
+
+	private void setPicking(boolean isPicking) {
+		this.entityData.set(PICKING, isPicking);
+	}
+
+	public boolean isActivelyPicking() {
+		return this.entityData.get(ACTIVE_PICKING);
+	}
+
+	private void setActivelyPicking(boolean isActivelyPicking) {
+		this.entityData.set(ACTIVE_PICKING, isActivelyPicking);
 	}
 
 	public boolean hasFollowers() {
@@ -208,7 +253,7 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 			this.leader = p_27553_;
 		}
 	}
-	
+
 	class ProboscisFishFollowFlockLeaderGoal extends Goal {
 		@SuppressWarnings("unused")
 		private static final int INTERVAL_TICKS = 200;
@@ -292,8 +337,9 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 
 		public void tick() {
 			if (this.isReachedTarget()) {
+				ProboscisFish.this.setActivelyPicking(true);
 				if (this.ticksWaited >= 40) {
-					this.stop();
+					this.onReachedTarget();
 				} else {
 					++this.ticksWaited;
 				}
@@ -301,23 +347,27 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 
 			super.tick();
 		}
-		
-		protected void onReachedTarget() {
-			 RandomSource randomsource = ProboscisFish.this.getRandom();
-	         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-	         blockpos$mutableblockpos.set(ProboscisFish.this.isLeashed() ? ProboscisFish.this.getLeashHolder().blockPosition() : ProboscisFish.this.blockPosition());
-	         ProboscisFish.this.randomTeleport((double)(blockpos$mutableblockpos.getX() + randomsource.nextInt(11) - 5), (double)(blockpos$mutableblockpos.getY() + randomsource.nextInt(5) - 2), (double)(blockpos$mutableblockpos.getZ() + randomsource.nextInt(11) - 5), false);
-	         blockpos$mutableblockpos.set(ProboscisFish.this.blockPosition());
-	         LootTable loottable = ProboscisFish.this.level().getServer().getLootData().getLootTable(PICKING_LOOT);
-	         LootParams lootparams = (new LootParams.Builder((ServerLevel)ProboscisFish.this.level())).withParameter(LootContextParams.ORIGIN, ProboscisFish.this.position()).withParameter(LootContextParams.THIS_ENTITY, ProboscisFish.this).create(LootContextParamSets.EMPTY);
 
-	         for(ItemStack itemstack : loottable.getRandomItems(lootparams)) {
-	            ProboscisFish.this.level().addFreshEntity(new ItemEntity(ProboscisFish.this.level(), (double)blockpos$mutableblockpos.getX() - (double)Mth.sin(ProboscisFish.this.yBodyRot * ((float)Math.PI / 180F)), (double)blockpos$mutableblockpos.getY(), (double)blockpos$mutableblockpos.getZ() + (double)Mth.cos(ProboscisFish.this.yBodyRot * ((float)Math.PI / 180F)), itemstack));
-	         }
-	      }
+		protected void onReachedTarget() {
+			RandomSource randomsource = ProboscisFish.this.getRandom();
+			BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+			blockpos$mutableblockpos.set(ProboscisFish.this.isLeashed() ? ProboscisFish.this.getLeashHolder().blockPosition() : ProboscisFish.this.blockPosition());
+			ProboscisFish.this.randomTeleport((double)(blockpos$mutableblockpos.getX() + randomsource.nextInt(11) - 5), (double)(blockpos$mutableblockpos.getY() + randomsource.nextInt(5) - 2), (double)(blockpos$mutableblockpos.getZ() + randomsource.nextInt(11) - 5), false);
+			blockpos$mutableblockpos.set(ProboscisFish.this.blockPosition());
+			LootTable loottable = ProboscisFish.this.level().getServer().getLootData().getLootTable(PICKING_LOOT);
+			LootParams lootparams = (new LootParams.Builder((ServerLevel)ProboscisFish.this.level())).withParameter(LootContextParams.ORIGIN, ProboscisFish.this.position()).withParameter(LootContextParams.THIS_ENTITY, ProboscisFish.this).create(LootContextParamSets.EMPTY);
+
+			for(ItemStack itemstack : loottable.getRandomItems(lootparams)) {
+				ProboscisFish.this.level().addFreshEntity(new ItemEntity(ProboscisFish.this.level(), (double)blockpos$mutableblockpos.getX() - (double)Mth.sin(ProboscisFish.this.yBodyRot * ((float)Math.PI / 180F)), (double)blockpos$mutableblockpos.getY(), (double)blockpos$mutableblockpos.getZ() + (double)Mth.cos(ProboscisFish.this.yBodyRot * ((float)Math.PI / 180F)), itemstack));
+			}
+			ProboscisFish.this.coralPicking = 6000;
+			ProboscisFish.this.setActivelyPicking(false);
+			ProboscisFish.this.setPicking(false);
+			this.stop();
+		}
 
 		public boolean canUse() {
-			return super.canUse();
+			return super.canUse() && ProboscisFish.this.isPicking();
 		}
 
 		public void start() {
@@ -325,12 +375,14 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 			super.start();
 		}
 	}
-	
+
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		this.entityData.define(FROM_BUCKET, false);
+		this.entityData.define(PICKING, false);
+		this.entityData.define(ACTIVE_PICKING, false);
 	}
-	
+
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		Item item = stack.getItem();
@@ -340,7 +392,7 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 			return super.mobInteract(player, hand);
 		}
 	}
-	
+
 	@Override
 	public boolean fromBucket() {
 		return this.entityData.get(FROM_BUCKET);

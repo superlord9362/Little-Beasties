@@ -32,7 +32,7 @@ public class SaildrifterRenderer extends MobRenderer<Saildrifter, EntityModel<Sa
 	private static final ResourceLocation WILD_WAVE = new ResourceLocation(LittleBeasties.MOD_ID, "textures/entity/saildrifter/wild_wave.png");
 
 	public SaildrifterRenderer(EntityRendererProvider.Context renderManager) {
-		super(renderManager, new SaildrifterModel(renderManager.bakeLayer(ClientEvents.SAILDRIFTER)), 0.1875F);
+		super(renderManager, new SaildrifterModel(renderManager.bakeLayer(ClientEvents.SAILDRIFTER)), 0.375F);
 	}
 	
 	public ResourceLocation getTextureLocation(Saildrifter entity) {

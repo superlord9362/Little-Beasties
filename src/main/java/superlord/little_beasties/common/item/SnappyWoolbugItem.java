@@ -34,6 +34,7 @@ public class SnappyWoolbugItem extends Item {
 			if (world.mayInteract(player, blockpos) && player.mayUseItemAt(blockpos, blockraytraceresult.getDirection(), itemstack)) {
 				SnappyWoolbug woolBug = new SnappyWoolbug(LBEntities.SNAPPY_WOOLBUG.get(), world);
 				woolBug.setPos(raytraceresult.getLocation());
+				if (itemstack.hasCustomHoverName()) woolBug.setCustomName(itemstack.getHoverName());
 				world.addFreshEntity(woolBug);
 				if (!player.getAbilities().instabuild) {
 					itemstack.shrink(1);

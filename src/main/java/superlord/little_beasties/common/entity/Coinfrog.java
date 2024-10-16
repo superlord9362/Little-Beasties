@@ -123,7 +123,11 @@ public class Coinfrog extends Animal {
 		ItemStack stack = player.getItemInHand(hand);
 		Item item = stack.getItem();
 		if (item == Items.AIR && this.getTarget() == null) {
-			ItemEntity itementity = new ItemEntity(this.level(), this.getX(), this.getY() + 1.0D, this.getZ(), new ItemStack(LBItems.COINFROG.get()));
+			ItemStack dropStack = new ItemStack(LBItems.COINFROG.get());
+			if (this.hasCustomName()) {
+				dropStack.setHoverName(getCustomName());
+			}
+			ItemEntity itementity = new ItemEntity(this.level(), this.getX(), this.getY() + 1.0D, this.getZ(), dropStack);
 			this.level().addFreshEntity(itementity);
 			this.discard();
 			return InteractionResult.SUCCESS;
@@ -270,6 +274,10 @@ public class Coinfrog extends Animal {
 		public boolean canContinueToUse() {
 			return super.canContinueToUse() && this.coinfrog.hasBaby();
 		}
+		
+		public double acceptedDistance() {
+			return 2.0D;
+		}
 
 		public void tick() {
 			super.tick();
@@ -292,12 +300,8 @@ public class Coinfrog extends Animal {
 		}
 
 		protected boolean isValidTarget(LevelReader worldIn, BlockPos pos) {
-			if (!worldIn.isEmptyBlock(pos.above())) {
-				return false;
-			} else {
-				Block block = worldIn.getBlockState(pos).getBlock();
-				return block == Blocks.WATER && worldIn.getBlockState(pos.above()).getBlock() == Blocks.AIR;
-			}
+			Block block = worldIn.getBlockState(pos).getBlock();
+			return block == Blocks.WATER && worldIn.getBlockState(pos.above()).getBlock() == Blocks.AIR;
 		}
 
 	}

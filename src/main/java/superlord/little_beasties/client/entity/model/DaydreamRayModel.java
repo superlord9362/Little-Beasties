@@ -67,7 +67,7 @@ public class DaydreamRayModel extends EntityModel<DaydreamRay> {
 		this.leftWing.zRot = Mth.sin(0.15F * ageInTicks) * -0.2F;
 		this.rightWingTip.zRot = Mth.sin(0.15F * ageInTicks) * 0.1F;
 		this.leftWingTip.zRot = Mth.sin(0.15F * ageInTicks) * -0.1F;
-		this.tail.xRot = Mth.sin(0.15F * ageInTicks) * 0.45F;
+		this.tail.xRot = Mth.sin(0.15F * ageInTicks) * 0.25F;
 		this.leftFoot.xRot = Mth.sin(0.15F * ageInTicks) * 0.2F;
 		this.rightFoot.xRot = -Mth.sin(0.15F * ageInTicks) * 0.2F;
 	}

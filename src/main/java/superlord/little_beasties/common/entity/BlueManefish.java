@@ -36,6 +36,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import superlord.little_beasties.init.LBItems;
@@ -48,6 +49,14 @@ public class BlueManefish extends WaterAnimal implements Bucketable {
 		super(p_30341_, p_30342_);
 		this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
 		this.lookControl = new SmoothSwimmingLookControl(this, 10);
+	}
+
+	public boolean requiresCustomPersistence() {
+		return super.requiresCustomPersistence() || this.fromBucket();
+	}
+
+	public boolean removeWhenFarAway(double p_27492_) {
+		return !this.fromBucket() && !this.hasCustomName();
 	}
 
 	protected void registerGoals() {
@@ -71,6 +80,7 @@ public class BlueManefish extends WaterAnimal implements Bucketable {
 			if (this.getTarget() == null) {
 				this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
 			}
+			if (this.level().getBlockState(this.blockPosition().above(4)).is(Blocks.AIR)) this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
 		} else {
 			super.travel(p_28383_);
 		}
@@ -169,10 +179,13 @@ public class BlueManefish extends WaterAnimal implements Bucketable {
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putBoolean("Puffing", this.isPuffing());
+		tag.putBoolean("FromBucket", this.fromBucket());
 	}
 
 	public void readAdditionalSaveData(CompoundTag tag) {
+		super.readAdditionalSaveData(tag);
 		this.setPuffing(tag.getBoolean("Puffing"));
+		this.setFromBucket(tag.getBoolean("FromBucket"));
 	}
 
 	class PuffOutGoal extends Goal {

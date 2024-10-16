@@ -17,7 +17,7 @@ public class ProboscisFishRenderer extends MobRenderer<ProboscisFish, EntityMode
 	private static final ResourceLocation PROBOSCIS_FISH = new ResourceLocation(LittleBeasties.MOD_ID, "textures/entity/proboscis_fish.png");
 	
 	public ProboscisFishRenderer(EntityRendererProvider.Context renderManager) {
-		super(renderManager, new ProboscisFishModel(renderManager.bakeLayer(ClientEvents.PROBOSCIS_FISH)), 0.4F);
+		super(renderManager, new ProboscisFishModel(renderManager.bakeLayer(ClientEvents.PROBOSCIS_FISH)), 0.3125F);
 	}
 	
 	public ResourceLocation getTextureLocation(ProboscisFish entity) {

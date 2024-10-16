@@ -71,7 +71,7 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 		this.goalSelector.addGoal(1, new MeleeAttackGoal(this, (double)1.2F, true));
 		this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
 	}
-	
+
 	public boolean doHurtTarget(Entity p_28319_) {
 		boolean flag = p_28319_.hurt(this.damageSources().mobAttack(this), (float)((int)this.getAttributeValue(Attributes.ATTACK_DAMAGE)));
 		if (flag) {
@@ -79,6 +79,14 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 		}
 
 		return flag;
+	}
+
+	public boolean requiresCustomPersistence() {
+		return super.requiresCustomPersistence() || this.fromBucket();
+	}
+
+	public boolean removeWhenFarAway(double p_27492_) {
+		return !this.fromBucket() && !this.hasCustomName();
 	}
 
 	protected PathNavigation createNavigation(Level p_28362_) {
@@ -125,7 +133,7 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 		}
 		for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(6, 6, 6))) {
 			if (entity instanceof Mohomooho mohomooho) {
-				if (mohomooho.getColor() == 1) this.setTarget(mohomooho);
+				if (mohomooho.getColor() == 1 && this.getColor() != 1) this.setTarget(mohomooho);
 			}
 			if (entity instanceof Salmon || entity instanceof TropicalDartfish || entity instanceof Sniffer || entity instanceof MushroomCow || entity instanceof Strider) this.setTarget(entity);
 		}
@@ -143,13 +151,16 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putInt("Color", this.getColor());
+		tag.putBoolean("FromBucket", this.fromBucket());
 		tag.putBoolean("Stunned", this.isStunned());
 	}
 
 	@Override
 	public void readAdditionalSaveData(CompoundTag tag) {
+		super.readAdditionalSaveData(tag);
 		this.setColor(tag.getInt("Color"));
 		this.setStunned(tag.getBoolean("Stunned"));
+		this.setFromBucket(tag.getBoolean("FromBucket"));
 	}
 
 	public int getColor() {
@@ -159,11 +170,11 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 	public void setColor(int color) {
 		this.entityData.set(COLOR, color);
 	}
-	
+
 	public boolean isStunned() {
 		return this.entityData.get(STUNNED);
 	}
-	
+
 	public void setStunned(boolean stunned) {
 		this.entityData.set(STUNNED, stunned);
 	}
@@ -217,7 +228,7 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 			super.start();
 		}
 	}
-	
+
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		Item item = stack.getItem();
@@ -227,7 +238,7 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 			return super.mobInteract(player, hand);
 		}
 	}
-	
+
 	@Override
 	public boolean fromBucket() {
 		return this.entityData.get(FROM_BUCKET);
@@ -257,7 +268,7 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 	public ItemStack getBucketItemStack() {
 		return new ItemStack(LBItems.MOHOMOOHO_BUCKET.get());
 	}
-	
+
 	@Override
 	public SoundEvent getPickupSound() {
 		return SoundEvents.BUCKET_FILL_FISH;

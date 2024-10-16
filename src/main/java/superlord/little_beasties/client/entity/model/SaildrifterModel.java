@@ -52,6 +52,11 @@ public class SaildrifterModel extends EntityModel<Saildrifter> {
 
 	@Override
 	public void setupAnim(Saildrifter entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		if (!entity.isInWater()) {
+			this.body.zRot = 1.6F;
+		} else {
+			this.body.zRot = 0;
+		}
 		this.body.xRot = headPitch * ((float)Math.PI / 180F);
 		this.body.yRot = netHeadYaw * ((float)Math.PI / 180F);
 		this.rudderFin.yRot = 0.45F * Mth.sin(0.6F * ageInTicks);

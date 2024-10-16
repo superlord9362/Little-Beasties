@@ -32,7 +32,7 @@ import superlord.little_beasties.init.LBEntities;
 import superlord.little_beasties.init.LBItems;
 
 public class CoinfrogTadpole extends WaterAnimal implements Bucketable {
-	private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(Rainwitch.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(CoinfrogTadpole.class, EntityDataSerializers.BOOLEAN);
 
 	public CoinfrogTadpole(EntityType<? extends WaterAnimal> p_30341_, Level p_30342_) {
 		super(p_30341_, p_30342_);
@@ -45,6 +45,14 @@ public class CoinfrogTadpole extends WaterAnimal implements Bucketable {
 		this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1, 10));
 		this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 6.0F));
 		this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
+	}
+
+	public boolean requiresCustomPersistence() {
+		return super.requiresCustomPersistence() || this.fromBucket();
+	}
+
+	public boolean removeWhenFarAway(double p_27492_) {
+		return !this.fromBucket() && !this.hasCustomName();
 	}
 
 	@Override
@@ -73,7 +81,7 @@ public class CoinfrogTadpole extends WaterAnimal implements Bucketable {
 	public static AttributeSupplier.Builder createAttributes() {
 		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 2.0D);
 	}
-	
+
 	public void tick() {
 		super.tick();
 		int i = this.tickCount;
@@ -116,6 +124,16 @@ public class CoinfrogTadpole extends WaterAnimal implements Bucketable {
 		} else {
 			return super.mobInteract(player, hand);
 		}
+	}
+	
+	public void addAdditionalSaveData(CompoundTag tag) {
+		super.addAdditionalSaveData(tag);
+		tag.putBoolean("FromBucket", this.fromBucket());
+	}
+
+	public void readAdditionalSaveData(CompoundTag tag) {
+		super.readAdditionalSaveData(tag);
+		this.setFromBucket(tag.getBoolean("FromBucket"));
 	}
 
 	@Override

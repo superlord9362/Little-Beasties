@@ -17,7 +17,7 @@ public class SnappyWoolbugRenderer extends MobRenderer<SnappyWoolbug, EntityMode
 	private static final ResourceLocation SNAPPY_WOOLBUG = new ResourceLocation(LittleBeasties.MOD_ID, "textures/entity/snappy_woolbug.png");
 
 	public SnappyWoolbugRenderer(EntityRendererProvider.Context renderManager) {
-		super(renderManager, new SnappyWoolbugModel(renderManager.bakeLayer(ClientEvents.SNAPPY_WOOLBUG)), 0.4F);
+		super(renderManager, new SnappyWoolbugModel(renderManager.bakeLayer(ClientEvents.SNAPPY_WOOLBUG)), 0.4375F);
 	}
 
 	public ResourceLocation getTextureLocation(SnappyWoolbug entity) {

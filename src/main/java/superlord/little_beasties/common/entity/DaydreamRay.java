@@ -23,16 +23,16 @@ public class DaydreamRay extends WaterAnimal {
 		this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
 		this.lookControl = new SmoothSwimmingLookControl(this, 10);
 	}
-	
+
 	public void registerGoals() {
 		super.registerGoals();
 		this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1, 10));
 	}
-	
+
 	protected PathNavigation createNavigation(Level p_28362_) {
 		return new WaterBoundPathNavigation(this, p_28362_);
 	}
-	
+
 	public void travel(Vec3 p_28383_) {
 		if (this.isEffectiveAi() && this.isInWater()) {
 			this.moveRelative(this.getSpeed(), p_28383_);
@@ -45,7 +45,15 @@ public class DaydreamRay extends WaterAnimal {
 			super.travel(p_28383_);
 		}
 	}
-	
+
+	public boolean requiresCustomPersistence() {
+		return super.requiresCustomPersistence();
+	}
+
+	public boolean removeWhenFarAway(double p_27492_) {
+		return !this.hasCustomName();
+	}
+
 	protected SoundEvent getFlopSound() {
 		return SoundEvents.COD_FLOP;
 	}
@@ -57,7 +65,7 @@ public class DaydreamRay extends WaterAnimal {
 	public static AttributeSupplier.Builder createAttributes() {
 		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D);
 	}
-	
+
 	public void aiStep() {
 		if (!this.isInWater() && this.onGround() && this.verticalCollision) {
 			this.setDeltaMovement(this.getDeltaMovement().add((double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F), (double)0.4F, (double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F)));

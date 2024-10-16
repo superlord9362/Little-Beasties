@@ -17,7 +17,7 @@ public class TropicalDartfishRenderer extends MobRenderer<TropicalDartfish, Enti
 	private static final ResourceLocation TROPICAL_DARTFISH = new ResourceLocation(LittleBeasties.MOD_ID, "textures/entity/tropical_dartfish.png");
 
 	public TropicalDartfishRenderer(EntityRendererProvider.Context renderManager) {
-		super(renderManager, new TropicalDartfishModel(renderManager.bakeLayer(ClientEvents.TROPICAL_DARTFISH)), 0.4F);
+		super(renderManager, new TropicalDartfishModel(renderManager.bakeLayer(ClientEvents.TROPICAL_DARTFISH)), 0.5F);
 	}
 
 	public ResourceLocation getTextureLocation(TropicalDartfish entity) {

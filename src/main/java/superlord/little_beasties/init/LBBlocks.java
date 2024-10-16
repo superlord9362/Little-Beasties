@@ -26,11 +26,11 @@ public class LBBlocks {
 	public static final RegistryObject<Block> ORANGE_TROPICAL_SCALEBLOCK = REGISTER.register("orange_tropical_scaleblock", () -> new Block(Properties.of().requiresCorrectToolForDrops().strength(1.5F, 4).sound(SoundType.NETHER_BRICKS)));
 	public static final RegistryObject<Block> RAINBOW_TROPICAL_SCALEBLOCK = REGISTER.register("rainbow_tropical_scaleblock", () -> new Block(Properties.of().requiresCorrectToolForDrops().strength(1.5F, 4).sound(SoundType.NETHER_BRICKS)));
 	
-	public static final RegistryObject<Block> HOLLOW_SANDY_SHELL = REGISTER.register("hollow_sandy_shell", () -> new RotatedPillarBlock(Properties.of().requiresCorrectToolForDrops().strength(1).sound(SoundType.CORAL_BLOCK)));
-	public static final RegistryObject<Block> HOLLOW_SPUME_SHELL = REGISTER.register("hollow_spume_shell", () -> new RotatedPillarBlock(Properties.of().requiresCorrectToolForDrops().strength(1).sound(SoundType.CORAL_BLOCK)));
-	public static final RegistryObject<Block> HOLLOW_INTERTIDAL_SHELL = REGISTER.register("hollow_intertidal_shell", () -> new RotatedPillarBlock(Properties.of().requiresCorrectToolForDrops().strength(1).sound(SoundType.CORAL_BLOCK)));
-	public static final RegistryObject<Block> HOLLOW_BATHYAL_SHELL = REGISTER.register("hollow_bathyal_shell", () -> new RotatedPillarBlock(Properties.of().requiresCorrectToolForDrops().strength(1).sound(SoundType.CORAL_BLOCK)));
-	public static final RegistryObject<Block> HOLLOW_MIDNIGHT_SHELL = REGISTER.register("hollow_midnight_shell", () -> new RotatedPillarBlock(Properties.of().requiresCorrectToolForDrops().strength(1).sound(SoundType.CORAL_BLOCK)));
+	public static final RegistryObject<Block> HOLLOW_SANDY_SHELL = REGISTER.register("hollow_sandy_shell", () -> new RotatedPillarBlock(Properties.of().requiresCorrectToolForDrops().strength(1).sound(SoundType.BONE_BLOCK)));
+	public static final RegistryObject<Block> HOLLOW_SPUME_SHELL = REGISTER.register("hollow_spume_shell", () -> new RotatedPillarBlock(Properties.of().requiresCorrectToolForDrops().strength(1).sound(SoundType.BONE_BLOCK)));
+	public static final RegistryObject<Block> HOLLOW_INTERTIDAL_SHELL = REGISTER.register("hollow_intertidal_shell", () -> new RotatedPillarBlock(Properties.of().requiresCorrectToolForDrops().strength(1).sound(SoundType.BONE_BLOCK)));
+	public static final RegistryObject<Block> HOLLOW_BATHYAL_SHELL = REGISTER.register("hollow_bathyal_shell", () -> new RotatedPillarBlock(Properties.of().requiresCorrectToolForDrops().strength(1).sound(SoundType.BONE_BLOCK)));
+	public static final RegistryObject<Block> HOLLOW_MIDNIGHT_SHELL = REGISTER.register("hollow_midnight_shell", () -> new RotatedPillarBlock(Properties.of().requiresCorrectToolForDrops().strength(1).sound(SoundType.BONE_BLOCK)));
 	
 	public static final RegistryObject<Block> MARINE_CLAY = REGISTER.register("marine_clay", () -> new Block(Properties.of().mapColor(MapColor.COLOR_ORANGE).instrument(NoteBlockInstrument.FLUTE).strength(0.6F).sound(SoundType.GRAVEL)));
 	

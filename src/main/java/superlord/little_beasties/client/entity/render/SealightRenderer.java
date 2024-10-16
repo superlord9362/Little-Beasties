@@ -23,7 +23,7 @@ public class SealightRenderer extends MobRenderer<Sealight, EntityModel<Sealight
 	private static final ResourceLocation MIDNIGHT = new ResourceLocation(LittleBeasties.MOD_ID, "textures/entity/sealight/midnight.png");
 
 	public SealightRenderer(EntityRendererProvider.Context renderManager) {
-		super(renderManager, new SealightModel(renderManager.bakeLayer(ClientEvents.SEALIGHT)), 0.4F);
+		super(renderManager, new SealightModel(renderManager.bakeLayer(ClientEvents.SEALIGHT)), 0.3125F);
 	}
 
 	public ResourceLocation getTextureLocation(Sealight entity) {

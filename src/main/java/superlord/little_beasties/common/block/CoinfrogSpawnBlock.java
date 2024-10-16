@@ -25,6 +25,8 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import superlord.little_beasties.common.entity.CoinfrogTadpole;
+import superlord.little_beasties.init.LBEntities;
 
 @SuppressWarnings("unused")
 public class CoinfrogSpawnBlock extends Block {
@@ -96,7 +98,7 @@ public class CoinfrogSpawnBlock extends Block {
 		int i = p_221223_.nextInt(2, 6);
 
 		for(int j = 1; j <= i; ++j) {
-			Tadpole tadpole = EntityType.TADPOLE.create(p_221221_);
+			CoinfrogTadpole tadpole = LBEntities.COINFROG_TADPOLE.get().create(p_221221_);
 			if (tadpole != null) {
 				double d0 = (double)p_221222_.getX() + this.getRandomTadpolePositionOffset(p_221223_);
 				double d1 = (double)p_221222_.getZ() + this.getRandomTadpolePositionOffset(p_221223_);
