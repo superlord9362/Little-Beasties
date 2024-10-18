@@ -18,7 +18,7 @@ public class CommonEvents {
 		ResourceLocation name = event.getName();
 		LootPool pool = event.getTable().getPool("main");
 		if (name.equals(BuiltInLootTables.FISHING_FISH)) {
-			addEntry(pool, getInjectEntry(new ResourceLocation(LittleBeasties	.MOD_ID, "inject/fishing"), 10, 1));
+			addEntry(pool, getInjectEntry(new ResourceLocation(LittleBeasties.MOD_ID, "inject/fishing"), 10, 1));
 		}
 	}
 
@@ -30,7 +30,6 @@ public class CommonEvents {
 		LootPoolEntryContainer[] newEntries = new LootPoolEntryContainer[pool.entries.length + 1];
 		System.arraycopy(pool.entries, 0, newEntries, 0, pool.entries.length);
 		newEntries[pool.entries.length] = entry;
-
 		pool.entries = newEntries;
 	}
 

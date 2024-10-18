@@ -32,11 +32,18 @@ public class DaydreamRayLayer extends RenderLayer<DaydreamRay, EntityModel<Daydr
 			return;
 		}
 		RenderType tex = null;
+		long roundTime = ray.level().getDayTime() % 24000;
+		boolean night = roundTime >= 13000 && roundTime <= 22000;
 		tex = TEXTURE;
 		BlockPos rayPos = ray.blockPosition();
 		int i = ray.level().getBrightness(LightLayer.SKY, rayPos);
 		int j = ray.level().getBrightness(LightLayer.BLOCK, rayPos);
 		int brightness = Math.max(i, j);
+		if (night) {
+			brightness = j;
+		} else {
+			brightness = Math.max(i, j);
+		}
 		if (brightness < 7) {
 			if(tex != null){
 	        	VertexConsumer ivertexbuilder = buffer.getBuffer(tex);

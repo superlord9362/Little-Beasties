@@ -28,7 +28,7 @@ import superlord.little_beasties.init.LBEntities;
 import superlord.little_beasties.init.LBStructures.LBStructurePieceType;
 
 public class CollectorsHutBotanyPieces {
-	static final BlockPos PIVOT = new BlockPos(4, 0, 15);
+	static final BlockPos PIVOT = new BlockPos(0, 0, 0);
 	private static final ResourceLocation LOCATION = new ResourceLocation(LittleBeasties.MOD_ID, "collectors_hut_botanic");
 
 	public static void addPieces(StructureTemplateManager p_229346_, BlockPos p_229347_, Rotation p_229348_, StructurePieceAccessor p_229349_, RandomSource p_229350_) {

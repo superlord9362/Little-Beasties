@@ -20,6 +20,7 @@ public class ClientProxy extends CommonProxy {
 	public static void setupBlockRenders() {
 		RenderType cutoutRenderType = RenderType.cutout();
 		ItemBlockRenderTypes.setRenderLayer(LBBlocks.TEARTANG.get(), cutoutRenderType);
+		ItemBlockRenderTypes.setRenderLayer(LBBlocks.COINFROG_SPAWN.get(), cutoutRenderType);
 	}
 
 }

@@ -26,7 +26,7 @@ public class LBBiomeModifier implements BiomeModifier {
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.SAILDRIFTER.get(), 12, 5, 10));
 				}
 				if (biome.is(Biomes.WARM_OCEAN)) {
-					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.BLUE_MANEFISH.get(), 14, 1, 3));
+					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.BLUE_MANEFISH.get(), 18, 1, 3));
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.TROPICAL_SEADRAGON.get(), 5, 1, 2));
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.PROBOSCIS_FISH.get(), 12, 3, 6));
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.WAVE_HORNGLIDER.get(), 2, 1, 2));
@@ -39,19 +39,19 @@ public class LBBiomeModifier implements BiomeModifier {
 				}
 				if (biome.is(Biomes.SWAMP)) {
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.RAINWITCH.get(), 12, 2, 5));
-					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.MOHOMOOHO.get(), 4, 3, 6));
+					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.MOHOMOOHO.get(), 3, 3, 6));
 				}
 				if (biome.is(Biomes.MANGROVE_SWAMP)) {
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.RAINWITCH.get(), 12, 2, 5));
 				}
 				if (biome.is(BiomeTags.IS_JUNGLE)) {
-					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.COINFROG.get(), 6, 1, 3));
+					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.COINFROG.get(), 3, 1, 3));
 				}
 				if (biome.is(Biomes.DEEP_OCEAN)) {
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.DAYDREAM_RAY.get(), 2, 1, 1));
 				}
 				if (biome.is(Biomes.RIVER)) {
-					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.MOHOMOOHO.get(), 7, 3, 6));
+					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.MOHOMOOHO.get(), 4, 3, 6));
 				}
 			}
 		}

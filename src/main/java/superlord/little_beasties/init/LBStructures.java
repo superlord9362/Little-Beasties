@@ -148,9 +148,8 @@ public class LBStructures {
 		return ResourceKey.create(Registries.STRUCTURE_SET, new ResourceLocation(LittleBeasties.MOD_ID, p_209839_));
 	}
 
-	@SuppressWarnings("rawtypes")
-	public interface LBStructureType<S extends Structure> extends StructureType {
-		public static final DeferredRegister<StructureType<? extends Structure>> REGISTRY = DeferredRegister.create(Registries.STRUCTURE_TYPE, LittleBeasties.MOD_ID);
+	public interface LBStructureType<S extends Structure> extends StructureType<S> {
+		public static final DeferredRegister<StructureType<?>> REGISTRY = DeferredRegister.create(Registries.STRUCTURE_TYPE, LittleBeasties.MOD_ID);
 
 		RegistryObject<StructureType<SandyHollowRemainStructure>> SANDY_HOLLOW_REMAINS = register("sandy_hollow_remain", SandyHollowRemainStructure.CODEC);
 		RegistryObject<StructureType<SmallSandyHollowRemainStructure>> SMALL_SANDY_HOLLOW_REMAINS = register("small_sandy_hollow_remains", SmallSandyHollowRemainStructure.CODEC);

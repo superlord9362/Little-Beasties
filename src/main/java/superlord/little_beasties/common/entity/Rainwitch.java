@@ -329,7 +329,7 @@ public class Rainwitch extends WaterAnimal implements Bucketable {
 	protected void customServerAiStep() {
 		super.customServerAiStep();
 		if (this.level().isRaining()) {
-			if (this.targetPosition != null && (!this.level().isEmptyBlock(this.targetPosition) || this.targetPosition.getY() <= this.level().getMinBuildHeight())) {
+			if (this.targetPosition != null && (!this.level().isEmptyBlock(this.targetPosition) || !this.level().isRainingAt(this.targetPosition) || this.targetPosition.getY() <= this.level().getMinBuildHeight())) {
 				this.targetPosition = null;
 			}
 

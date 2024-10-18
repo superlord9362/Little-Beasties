@@ -35,6 +35,7 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MoveTowardsRestrictionGoal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.entity.npc.Npc;
@@ -75,6 +76,7 @@ public class Collector extends WaterAnimal implements InventoryCarrier, Npc, Mer
 		this.goalSelector.addGoal(1, new CollectorTradeWithPlayerGoal(this));
 		this.goalSelector.addGoal(1, new CollectorLookAtTradingPlayerGoal(this));
 		this.goalSelector.addGoal(2, new WanderToPositionGoal(this, 2.0D, 0.35D));
+		this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
 	}
 
 	public InteractionResult mobInteract(Player p_35856_, InteractionHand p_35857_) {

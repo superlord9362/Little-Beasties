@@ -418,7 +418,7 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 
 	@Override
 	public ItemStack getBucketItemStack() {
-		return new ItemStack(LBItems.BLUE_MANEFISH_BUCKET.get());
+		return new ItemStack(LBItems.PROBOSCIS_FISH_BUCKET.get());
 	}
 
 	@Override
