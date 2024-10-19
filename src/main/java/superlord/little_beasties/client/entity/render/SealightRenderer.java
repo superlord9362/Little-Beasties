@@ -38,7 +38,7 @@ public class SealightRenderer extends MobRenderer<Sealight, EntityModel<Sealight
 		int i = (int)Mth.clampedLerp(0.0F, 15.0F, 1.0F - (float)p_174146_.getDarkTicksRemaining() / 10.0F);
 		return i == 15 ? 15 : Math.max(i, super.getBlockLightLevel(p_174146_, p_174147_));
 	}
-	
+
 	@Nullable
 	protected RenderType getRenderType(Sealight p_113806_, boolean p_113807_, boolean p_113808_, boolean p_113809_) {
 		ResourceLocation resourcelocation = this.getTextureLocation(p_113806_);

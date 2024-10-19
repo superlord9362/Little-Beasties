@@ -70,9 +70,13 @@ public class TropicalSeadragonModel extends EntityModel<TropicalSeadragon> {
 		this.body.yRot = Mth.sin(0.15F * ageInTicks) * 0.3F;
 		this.body2.yRot = Mth.cos(0.15F * ageInTicks) * -0.3F;
 		this.body3.yRot = Mth.cos(0.15F * ageInTicks) * -0.3F;
-		this.leftGill.yRot = Mth.sin(0.15F * ageInTicks) * 0.3F;
-		this.rightGill.yRot = Mth.sin(0.15F * ageInTicks) * 0.3F;
-
+		this.leftGill.yRot = -Mth.abs(Mth.sin(0.15F * ageInTicks) * 0.5F);
+		this.rightGill.yRot = Mth.abs(Mth.sin(0.15F * ageInTicks + ((float)Math.PI / 2)) * 0.5F);
+		if (entity.isActivelyRubbing()) {
+			this.head.z = Mth.sin(0.2F * ageInTicks) * 6F;
+		} else {
+			this.head.z = 0;
+		}
 	}
 
 	@Override

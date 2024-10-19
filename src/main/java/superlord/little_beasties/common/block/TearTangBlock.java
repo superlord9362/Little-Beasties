@@ -47,7 +47,7 @@ public class TearTangBlock extends BushBlock implements BonemealableBlock, Liqui
 	}
 
 	protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos) {
-		return state.isFaceSturdy(worldIn, pos, Direction.UP) && state.getBlock() == Blocks.SAND;
+		return state.isFaceSturdy(worldIn, pos, Direction.UP) && state.getBlock() == Blocks.MOSS_BLOCK;
 	}
 
 	public IntegerProperty getAgeProperty() {

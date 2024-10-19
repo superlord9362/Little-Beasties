@@ -80,6 +80,10 @@ public class ProboscisFishModel extends EntityModel<ProboscisFish> {
 		this.leftFin1.yRot = Mth.sin(0.3F * ageInTicks) * 0.15F;
 		this.leftFin2.yRot = Mth.cos(0.3F * ageInTicks) * 0.15F;
 		this.leftFin3.yRot = Mth.sin(0.3F * ageInTicks) * 0.15F;
+		if (entity.isActivelyPicking()) {
+			this.body.xRot = (headPitch * ((float)Math.PI / 180F)) + (Mth.sin(0.25F * ageInTicks) * 0.1F + 0.5F);
+			this.proboscis.xRot = Mth.sin(0.25F * ageInTicks) * 0.35F;
+		}
 	}
 
 	@Override

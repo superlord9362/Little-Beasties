@@ -44,7 +44,7 @@ public class SealightModel extends EntityModel<Sealight> {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 16.0F, 0.0F, -0.3927F, 0.0F, 0.0F));
+		PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 22.0F, 0.0F, 1.5708F, 0.0F, 0.0F));
 
 		PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-2.5F, -4.0F, -2.0F, 5.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -69,7 +69,7 @@ public class SealightModel extends EntityModel<Sealight> {
 
 	@Override
 	public void setupAnim(Sealight entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.body.xRot = headPitch * ((float)Math.PI / 180F) + 1.5F;
+		this.body.xRot = headPitch * ((float)Math.PI / 180F);
 		this.body.yRot = netHeadYaw * ((float)Math.PI / 180F);
 		this.fin.yRot = 0.35F * Mth.sin(0.2F * ageInTicks);
 		this.rightFin.yRot = 0.45F * Mth.cos(0.2F * ageInTicks);

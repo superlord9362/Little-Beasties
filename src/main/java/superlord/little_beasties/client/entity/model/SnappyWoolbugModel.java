@@ -82,7 +82,8 @@ public class SnappyWoolbugModel extends EntityModel<SnappyWoolbug> {
 		this.rightLeg2.xRot = Mth.cos(limbSwing * walkSpeed + 15) * walkDegree * 0.5F * limbSwingAmount;
 		this.leftLeg.xRot = -(Mth.cos(limbSwing * walkSpeed) * walkDegree * 0.5F * limbSwingAmount);
 		this.rightLeg.xRot = Mth.cos(limbSwing * walkSpeed + 10) * walkDegree * 0.5F * limbSwingAmount;
-		this.abdomen.xRot = Mth.sin(limbSwing * walkSpeed) * walkDegree * 0.2F * limbSwingAmount;
+		this.abdomen.xRot = (Mth.sin(limbSwing * walkSpeed) * walkDegree * 0.2F * limbSwingAmount) - Mth.abs(Mth.sin(ageInTicks * 0.05F) * 0.1F);
+		this.body.y = -4.5F;
 	}
 
 	@Override

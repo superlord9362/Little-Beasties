@@ -7,13 +7,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -47,12 +43,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
-import superlord.little_beasties.LittleBeasties;
 import superlord.little_beasties.init.LBItems;
 
 public class TropicalSeadragon extends WaterAnimal implements Bucketable {
@@ -62,7 +53,7 @@ public class TropicalSeadragon extends WaterAnimal implements Bucketable {
 	private static final EntityDataAccessor<Boolean> ACTIVE_RUBBING = SynchedEntityData.defineId(TropicalSeadragon.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(TropicalSeadragon.class, EntityDataSerializers.INT);
 	private int huntTime = 6000;
-	private int coralRubTime = 6000;
+	private int coralRubTime = 0;
 
 	public TropicalSeadragon(EntityType<? extends WaterAnimal> entity, Level world) {
 		super(entity, world);
@@ -135,6 +126,13 @@ public class TropicalSeadragon extends WaterAnimal implements Bucketable {
 			this.hasImpulse = true;
 			this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
 		}
+		if (!this.isRubbing()) {
+			coralRubTime++;
+		}
+		if (coralRubTime == 3000) {
+			this.setRubbing(true);
+			coralRubTime = 0;
+		}
 		super.aiStep();
 	}
 
@@ -151,9 +149,6 @@ public class TropicalSeadragon extends WaterAnimal implements Bucketable {
 		super.tick();
 		for (int i = huntTime; i > 0; i--) {
 			if (i == 0) this.setHunting(true);
-		}
-		for (int i = coralRubTime; i > 0; i--) {
-			if (i == 0) this.setRubbing(true);
 		}
 	}
 
@@ -300,7 +295,6 @@ public class TropicalSeadragon extends WaterAnimal implements Bucketable {
 	public class TropicalSeadragonSwimToCoralGoal extends MoveToBlockGoal {
 		@SuppressWarnings("unused")
 		private static final int WAIT_TICKS = 40;
-		private static final ResourceLocation RUBBING_LOOT = new ResourceLocation(LittleBeasties.MOD_ID, "entities/tropical_seadragon");
 		protected int ticksWaited;
 
 		public TropicalSeadragonSwimToCoralGoal(double p_28675_, int p_28676_, int p_28677_) {
@@ -325,6 +319,7 @@ public class TropicalSeadragon extends WaterAnimal implements Bucketable {
 				TropicalSeadragon.this.setActivelyRubbing(true);
 				if (this.ticksWaited >= 40) {
 					this.onReachedTarget();
+					TropicalSeadragon.this.setRubbing(false);
 				} else {
 					++this.ticksWaited;
 				}
@@ -334,21 +329,52 @@ public class TropicalSeadragon extends WaterAnimal implements Bucketable {
 		}
 
 		protected void onReachedTarget() {
-			RandomSource randomsource = TropicalSeadragon.this.getRandom();
-			BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-			blockpos$mutableblockpos.set(TropicalSeadragon.this.isLeashed() ? TropicalSeadragon.this.getLeashHolder().blockPosition() : TropicalSeadragon.this.blockPosition());
-			TropicalSeadragon.this.randomTeleport((double)(blockpos$mutableblockpos.getX() + randomsource.nextInt(11) - 5), (double)(blockpos$mutableblockpos.getY() + randomsource.nextInt(5) - 2), (double)(blockpos$mutableblockpos.getZ() + randomsource.nextInt(11) - 5), false);
-			blockpos$mutableblockpos.set(TropicalSeadragon.this.blockPosition());
-			LootTable loottable = TropicalSeadragon.this.level().getServer().getLootData().getLootTable(RUBBING_LOOT);
-			LootParams lootparams = (new LootParams.Builder((ServerLevel)TropicalSeadragon.this.level())).withParameter(LootContextParams.ORIGIN, TropicalSeadragon.this.position()).withParameter(LootContextParams.THIS_ENTITY, TropicalSeadragon.this).create(LootContextParamSets.EMPTY);
-
-			for(ItemStack itemstack : loottable.getRandomItems(lootparams)) {
-				TropicalSeadragon.this.level().addFreshEntity(new ItemEntity(TropicalSeadragon.this.level(), (double)blockpos$mutableblockpos.getX() - (double)Mth.sin(TropicalSeadragon.this.yBodyRot * ((float)Math.PI / 180F)), (double)blockpos$mutableblockpos.getY(), (double)blockpos$mutableblockpos.getZ() + (double)Mth.cos(TropicalSeadragon.this.yBodyRot * ((float)Math.PI / 180F)), itemstack));
-				TropicalSeadragon.this.coralRubTime = 6000;
-				TropicalSeadragon.this.setActivelyRubbing(false);
+			if (TropicalSeadragon.this.getColor() == 0) {
+				ItemEntity entity = new ItemEntity(TropicalSeadragon.this.level(), TropicalSeadragon.this.getX(), TropicalSeadragon.this.getY(), TropicalSeadragon.this.getZ(), new ItemStack(LBItems.ORANGE_SEADRAGON_SCALE.get()));
+				TropicalSeadragon.this.level().addFreshEntity(entity);
 				TropicalSeadragon.this.setRubbing(false);
+				TropicalSeadragon.this.setActivelyRubbing(false);
 				this.stop();
 			}
+			if (TropicalSeadragon.this.getColor() == 1) {
+				ItemEntity entity = new ItemEntity(TropicalSeadragon.this.level(), TropicalSeadragon.this.getX(), TropicalSeadragon.this.getY(), TropicalSeadragon.this.getZ(), new ItemStack(LBItems.OPAL_SEADRAGON_SCALE.get()));
+				TropicalSeadragon.this.level().addFreshEntity(entity);
+				TropicalSeadragon.this.setRubbing(false);
+				TropicalSeadragon.this.setActivelyRubbing(false);
+				this.stop();
+			}
+			if (TropicalSeadragon.this.getColor() == 2) {
+				ItemEntity entity = new ItemEntity(TropicalSeadragon.this.level(), TropicalSeadragon.this.getX(), TropicalSeadragon.this.getY(), TropicalSeadragon.this.getZ(), new ItemStack(LBItems.RAINBOW_SEADRAGON_SCALE.get()));
+				TropicalSeadragon.this.level().addFreshEntity(entity);
+				TropicalSeadragon.this.setRubbing(false);
+				TropicalSeadragon.this.setActivelyRubbing(false);
+				this.stop();
+			}
+			if (TropicalSeadragon.this.getColor() == 3) {
+				ItemEntity entity = new ItemEntity(TropicalSeadragon.this.level(), TropicalSeadragon.this.getX(), TropicalSeadragon.this.getY(), TropicalSeadragon.this.getZ(), new ItemStack(LBItems.GOLDEN_SEADRAGON_SCALE.get()));
+				TropicalSeadragon.this.level().addFreshEntity(entity);
+				TropicalSeadragon.this.setRubbing(false);
+				TropicalSeadragon.this.setActivelyRubbing(false);
+				this.stop();
+			}
+//			RandomSource randomsource = TropicalSeadragon.this.getRandom();
+//			BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+//			blockpos$mutableblockpos.set(TropicalSeadragon.this.isLeashed() ? TropicalSeadragon.this.getLeashHolder().blockPosition() : TropicalSeadragon.this.blockPosition());
+//			TropicalSeadragon.this.randomTeleport((double)(blockpos$mutableblockpos.getX() + randomsource.nextInt(11) - 5), (double)(blockpos$mutableblockpos.getY() + randomsource.nextInt(5) - 2), (double)(blockpos$mutableblockpos.getZ() + randomsource.nextInt(11) - 5), false);
+//			blockpos$mutableblockpos.set(TropicalSeadragon.this.blockPosition());
+//			LootTable loottable = TropicalSeadragon.this.level().getServer().getLootData().getLootTable(RUBBING_LOOT);
+//			LootParams lootparams = (new LootParams.Builder((ServerLevel)TropicalSeadragon.this.level())).withParameter(LootContextParams.ORIGIN, TropicalSeadragon.this.position()).withParameter(LootContextParams.THIS_ENTITY, TropicalSeadragon.this).create(LootContextParamSets.EMPTY);
+//
+//			for(ItemStack itemstack : loottable.getRandomItems(lootparams)) {
+//				TropicalSeadragon.this.level().addFreshEntity(new ItemEntity(TropicalSeadragon.this.level(), (double)blockpos$mutableblockpos.getX() - (double)Mth.sin(TropicalSeadragon.this.yBodyRot * ((float)Math.PI / 180F)), (double)blockpos$mutableblockpos.getY(), (double)blockpos$mutableblockpos.getZ() + (double)Mth.cos(TropicalSeadragon.this.yBodyRot * ((float)Math.PI / 180F)), itemstack));
+//				TropicalSeadragon.this.setActivelyRubbing(false);
+//				TropicalSeadragon.this.setRubbing(false);
+//				this.stop();
+//			}
+		}
+		
+		public boolean canContinueToUse() {
+			return super.canContinueToUse() && TropicalSeadragon.this.isRubbing();
 		}
 
 		public boolean canUse() {

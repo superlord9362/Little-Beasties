@@ -13,13 +13,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -49,12 +45,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
-import superlord.little_beasties.LittleBeasties;
 import superlord.little_beasties.init.LBItems;
 
 public class ProboscisFish extends WaterAnimal implements Bucketable {
@@ -63,7 +54,7 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 	private static final EntityDataAccessor<Boolean> ACTIVE_PICKING = SynchedEntityData.defineId(ProboscisFish.class, EntityDataSerializers.BOOLEAN);
 	private ProboscisFish leader;
 	private int schoolSize = 1;
-	private int coralPicking = 6000;
+	private int coralPickTime = 0;
 
 	public ProboscisFish(EntityType<? extends WaterAnimal> p_30341_, Level p_30342_) {
 		super(p_30341_, p_30342_);
@@ -82,7 +73,7 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 	protected void registerGoals() {
 		super.registerGoals();
 		this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
-		this.goalSelector.addGoal(2, new ProboscisFishSwimToCoralGoal((double)1.2F, 12, 1));
+		this.goalSelector.addGoal(2, new ProboscisFishSwimToCoralGoal(this, (double)1.2F, 12, 1));
 		this.goalSelector.addGoal(1, new ProboscisFishFollowFlockLeaderGoal(this));
 		this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1, 10));
 	}
@@ -122,6 +113,14 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 			this.setOnGround(false);
 			this.hasImpulse = true;
 			this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
+		}
+		System.out.println(coralPickTime);
+		if (!this.isPicking()) {
+			coralPickTime++;
+		}
+		if (coralPickTime == 3000) {
+			this.setPicking(true);
+			coralPickTime = 0;
 		}
 		super.aiStep();
 	}
@@ -172,9 +171,6 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 			if (list.size() <= 1) {
 				this.schoolSize = 1;
 			}
-		}
-		for (int i = coralPicking; i > 0; i--) {
-			if (i == 0) this.setPicking(true);
 		}
 	}
 
@@ -315,11 +311,12 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 	public class ProboscisFishSwimToCoralGoal extends MoveToBlockGoal {
 		@SuppressWarnings("unused")
 		private static final int WAIT_TICKS = 40;
-		private static final ResourceLocation PICKING_LOOT = new ResourceLocation(LittleBeasties.MOD_ID, "entities/proboscis_fish_picking");
 		protected int ticksWaited;
+		ProboscisFish fish;
 
-		public ProboscisFishSwimToCoralGoal(double p_28675_, int p_28676_, int p_28677_) {
-			super(ProboscisFish.this, p_28675_, p_28676_, p_28677_);
+		public ProboscisFishSwimToCoralGoal(ProboscisFish fish, double p_28675_, int p_28676_, int p_28677_) {
+			super(fish, p_28675_, p_28676_, p_28677_);
+			this.fish = fish;
 		}
 
 		public double acceptedDistance() {
@@ -337,37 +334,31 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 
 		public void tick() {
 			if (this.isReachedTarget()) {
-				ProboscisFish.this.setActivelyPicking(true);
+				fish.setActivelyPicking(true);
 				if (this.ticksWaited >= 40) {
 					this.onReachedTarget();
+					fish.setPicking(false);
 				} else {
 					++this.ticksWaited;
 				}
 			}
-
 			super.tick();
 		}
 
 		protected void onReachedTarget() {
-			RandomSource randomsource = ProboscisFish.this.getRandom();
-			BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-			blockpos$mutableblockpos.set(ProboscisFish.this.isLeashed() ? ProboscisFish.this.getLeashHolder().blockPosition() : ProboscisFish.this.blockPosition());
-			ProboscisFish.this.randomTeleport((double)(blockpos$mutableblockpos.getX() + randomsource.nextInt(11) - 5), (double)(blockpos$mutableblockpos.getY() + randomsource.nextInt(5) - 2), (double)(blockpos$mutableblockpos.getZ() + randomsource.nextInt(11) - 5), false);
-			blockpos$mutableblockpos.set(ProboscisFish.this.blockPosition());
-			LootTable loottable = ProboscisFish.this.level().getServer().getLootData().getLootTable(PICKING_LOOT);
-			LootParams lootparams = (new LootParams.Builder((ServerLevel)ProboscisFish.this.level())).withParameter(LootContextParams.ORIGIN, ProboscisFish.this.position()).withParameter(LootContextParams.THIS_ENTITY, ProboscisFish.this).create(LootContextParamSets.EMPTY);
-
-			for(ItemStack itemstack : loottable.getRandomItems(lootparams)) {
-				ProboscisFish.this.level().addFreshEntity(new ItemEntity(ProboscisFish.this.level(), (double)blockpos$mutableblockpos.getX() - (double)Mth.sin(ProboscisFish.this.yBodyRot * ((float)Math.PI / 180F)), (double)blockpos$mutableblockpos.getY(), (double)blockpos$mutableblockpos.getZ() + (double)Mth.cos(ProboscisFish.this.yBodyRot * ((float)Math.PI / 180F)), itemstack));
-			}
-			ProboscisFish.this.coralPicking = 6000;
-			ProboscisFish.this.setActivelyPicking(false);
-			ProboscisFish.this.setPicking(false);
+			ItemEntity entity = new ItemEntity(fish.level(), fish.getX(), fish.getY(), fish.getZ(), new ItemStack(LBItems.TEARTANG_SPORES.get()));
+			fish.level().addFreshEntity(entity);
+			fish.setPicking(false);
+			fish.setActivelyPicking(false);
 			this.stop();
 		}
 
 		public boolean canUse() {
-			return super.canUse() && ProboscisFish.this.isPicking();
+			return super.canUse() && fish.isPicking();
+		}
+
+		public boolean canContinueToUse() {
+			return super.canContinueToUse() && fish.isPicking();
 		}
 
 		public void start() {

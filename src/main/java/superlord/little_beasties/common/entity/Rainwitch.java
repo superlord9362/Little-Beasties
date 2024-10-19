@@ -30,6 +30,7 @@ import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
+import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.animal.Bucketable;
@@ -68,6 +69,7 @@ public class Rainwitch extends WaterAnimal implements Bucketable {
 	protected void registerGoals() {
 		super.registerGoals();
 		this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1, 10));
+		this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
 		//		this.goalSelector.addGoal(5, new RainwitchFollowFlockLeaderGoal(this));
 		//		this.goalSelector.addGoal(5, new BoidGoal(this, 0.5f, 0.9f, 8 / 20f, 1 / 20f));
 		//		this.goalSelector.addGoal(3, new StayInWaterGoal(this));
@@ -328,7 +330,7 @@ public class Rainwitch extends WaterAnimal implements Bucketable {
 
 	protected void customServerAiStep() {
 		super.customServerAiStep();
-		if (this.level().isRaining()) {
+		if (this.level().isRaining() && this.level().isRainingAt(this.getOnPos().above())) {
 			if (this.targetPosition != null && (!this.level().isEmptyBlock(this.targetPosition) || !this.level().isRainingAt(this.targetPosition) || this.targetPosition.getY() <= this.level().getMinBuildHeight())) {
 				this.targetPosition = null;
 			}
