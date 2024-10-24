@@ -13,7 +13,7 @@
     },
     {
       "type": "minecraft:heightmap",
-      "heightmap": "MOTION_BLOCKING"
+      "heightmap": "OCEAN_FLOOR"
     },
     {
       "type": "minecraft:block_predicate_filter",
@@ -36,10 +36,7 @@
               0,
               0
             ],
-            "fluids": [
-              "minecraft:water",
-              "minecraft:flowing_water"
-            ]
+            "fluids": "minecraft:water"
           }
         ]
       }
