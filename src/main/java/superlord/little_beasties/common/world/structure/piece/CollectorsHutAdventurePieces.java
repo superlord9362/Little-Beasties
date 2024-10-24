@@ -36,7 +36,6 @@ public class CollectorsHutAdventurePieces {
 	}
 
 	public static class CollectorsHutAdventurePiece extends TemplateStructurePiece {
-		private boolean spawnedCollector;
 		public CollectorsHutAdventurePiece(StructureTemplateManager p_229354_, ResourceLocation p_229355_, BlockPos p_229356_, Rotation p_229357_) {
 			super(LBStructurePieceType.COLLECTORS_HUT_ADVENTURE.get(), 0, p_229354_, p_229355_, p_229355_.toString(), makeSettings(p_229357_), p_229356_);
 		}
@@ -45,20 +44,17 @@ public class CollectorsHutAdventurePieces {
 			super(LBStructurePieceType.COLLECTORS_HUT_ADVENTURE.get(), p_229361_, p_229360_, (p_229383_) -> {
 				return makeSettings(Rotation.valueOf(p_229361_.getString("Rot")));
 			});
-			this.spawnedCollector = p_229361_.getBoolean("Collector");
 		}
 
 		protected void addAdditionalSaveData(StructurePieceSerializationContext p_229373_, CompoundTag p_229374_) {
 			super.addAdditionalSaveData(p_229373_, p_229374_);
 			p_229374_.putString("Rot", this.placeSettings.getRotation().name());
-			p_229374_.putBoolean("Collector", this.spawnedCollector);
 		}
 
 		private static StructurePlaceSettings makeSettings(Rotation p_229371_) {
 			return (new StructurePlaceSettings()).setRotation(p_229371_).setMirror(Mirror.NONE).setRotationPivot(CollectorsHutAdventurePieces.PIVOT).addProcessor(BlockIgnoreProcessor.STRUCTURE_AND_AIR);
 		}
 
-		@SuppressWarnings("deprecation")
 		public void postProcess(WorldGenLevel p_229363_, StructureManager p_229364_, ChunkGenerator p_229365_, RandomSource p_229366_, BoundingBox p_229367_, ChunkPos p_229368_, BlockPos p_229369_) {
 			int i = p_229363_.getMaxBuildHeight();
 			int j = 0;
@@ -78,26 +74,23 @@ public class CollectorsHutAdventurePieces {
 				j /= k;
 			}
 
-			this.templatePosition = new BlockPos(this.templatePosition.getX(), j, this.templatePosition.getZ());
+			this.templatePosition = new BlockPos(this.templatePosition.getX(), j - 4, this.templatePosition.getZ());
 
-			if (!this.spawnedCollector) {
-				BlockPos blockpos = this.getWorldPos(2, 2, 5);
-				if (p_229367_.isInside(blockpos)) {
-					this.spawnedCollector = true;
-					Collector collector = LBEntities.COLLECTOR.get().create(p_229363_.getLevel());
-					if (collector != null) {
-						collector.moveTo((double)blockpos.getX() + 0.5D, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
-						collector.finalizeSpawn(p_229363_, p_229363_.getCurrentDifficultyAt(blockpos), MobSpawnType.STRUCTURE, (SpawnGroupData)null, (CompoundTag)null);
-						p_229363_.addFreshEntityWithPassengers(collector);
-					}
-				}
-			}
 			super.postProcess(p_229363_, p_229364_, p_229365_, p_229366_, p_229367_, p_229368_, p_229369_);
 		}
 
 		@Override
-		protected void handleDataMarker(String p_226906_, BlockPos p_226907_, ServerLevelAccessor p_226908_, RandomSource p_226909_, BoundingBox p_226910_) {
-
+		protected void handleDataMarker(String name, BlockPos blockpos, ServerLevelAccessor level, RandomSource p_226909_, BoundingBox bb) {
+			if (name.equals("collector")) {
+				if (bb.isInside(blockpos)) {
+					Collector collector = LBEntities.COLLECTOR.get().create(level.getLevel());
+					if (collector != null) {
+						collector.moveTo((double)blockpos.getX() + 0.5D, blockpos.getY(), (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
+						collector.finalizeSpawn(level, level.getCurrentDifficultyAt(blockpos), MobSpawnType.STRUCTURE, null, null);
+						level.addFreshEntityWithPassengers(collector);
+					}
+				}
+			}
 		}
 	}
 }
