@@ -28,10 +28,10 @@ import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import superlord.little_beasties.LittleBeasties;
-import superlord.little_beasties.common.structure.CollectorsHutAdventureStructure;
-import superlord.little_beasties.common.structure.CollectorsHutBotanyStructure;
-import superlord.little_beasties.common.structure.piece.CollectorsHutAdventurePieces.CollectorsHutAdventurePiece;
-import superlord.little_beasties.common.structure.piece.CollectorsHutBotanyPieces.CollectorsHutBotanyPiece;
+import superlord.little_beasties.common.world.structure.CollectorsHutAdventureStructure;
+import superlord.little_beasties.common.world.structure.CollectorsHutBotanyStructure;
+import superlord.little_beasties.common.world.structure.piece.CollectorsHutAdventurePieces.CollectorsHutAdventurePiece;
+import superlord.little_beasties.common.world.structure.piece.CollectorsHutBotanyPieces.CollectorsHutBotanyPiece;
 
 public class LBStructures {
 	public static final ResourceKey<Structure> COLLECTORS_HUT_ADVENTURE = createKey("collectors_hut_adventure");

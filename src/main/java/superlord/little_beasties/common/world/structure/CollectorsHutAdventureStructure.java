@@ -1,4 +1,4 @@
-package superlord.little_beasties.common.structure;
+package superlord.little_beasties.common.world.structure;
 
 import java.util.Optional;
 
@@ -10,7 +10,7 @@ import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
-import superlord.little_beasties.common.structure.piece.*;
+import superlord.little_beasties.common.world.structure.piece.CollectorsHutAdventurePieces;
 import superlord.little_beasties.init.LBStructures.LBStructureType;
 
 public class CollectorsHutAdventureStructure extends Structure {

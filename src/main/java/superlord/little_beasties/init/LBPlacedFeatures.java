@@ -16,15 +16,14 @@ import superlord.little_beasties.LittleBeasties;
 public class LBPlacedFeatures {
 	
 	public static final ResourceKey<PlacedFeature> MARINE_CLAY_DISK = registerPlacedFeature("placed_marine_clay_disk");
-//	public static final ResourceKey<PlacedFeature> BATHYAL_HOLLOW_REMAINS = registerPlacedFeature("placed_bathyal_hollow_remains");
-//	public static final ResourceKey<PlacedFeature> INTERTIDAL_HOLLOW_REMAINS = registerPlacedFeature("placed_intertidal_hollow_remains");
-//	public static final ResourceKey<PlacedFeature> MIDNIGHT_HOLLOW_REMAINS = registerPlacedFeature("placed_midnight_hollow_remains");
-//	public static final ResourceKey<PlacedFeature> SANDY_HOLLOW_REMAINS = registerPlacedFeature("placed_sandy_hollow_remains");
-//	public static final ResourceKey<PlacedFeature> SPUME_HOLLOW_REMAINS = registerPlacedFeature("placed_spume_hollow_remains");
+	//public static final ResourceKey<PlacedFeature> BATHYAL_HOLLOW_REMAINS = registerPlacedFeature("placed_bathyal_hollow_remains");
+	//public static final ResourceKey<PlacedFeature> INTERTIDAL_HOLLOW_REMAINS = registerPlacedFeature("placed_intertidal_hollow_remains");
+	//public static final ResourceKey<PlacedFeature> MIDNIGHT_HOLLOW_REMAINS = registerPlacedFeature("placed_midnight_hollow_remains");
+	//public static final ResourceKey<PlacedFeature> SANDY_HOLLOW_REMAINS = registerPlacedFeature("placed_sandy_hollow_remains");
+	//public static final ResourceKey<PlacedFeature> SPUME_HOLLOW_REMAINS = registerPlacedFeature("placed_spume_hollow_remains");
 
 	public static void bootstrap(BootstapContext<PlacedFeature> bootstapContext) {
 		HolderGetter<ConfiguredFeature<?, ?>> configHolderGetter = bootstapContext.lookup(Registries.CONFIGURED_FEATURE);
-		HolderGetter<Feature<?>> holderGetter = bootstapContext.lookup(Registries.FEATURE);
 		PlacementUtils.register(bootstapContext, MARINE_CLAY_DISK, configHolderGetter.getOrThrow(LBConfiguredFeatures.MARINE_CLAY_DISK), List.of(CountPlacement.of(1), BiomeFilter.biome()));
 	}
 	
