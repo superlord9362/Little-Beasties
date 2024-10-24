@@ -13,7 +13,36 @@
     },
     {
       "type": "minecraft:heightmap",
-      "heightmap": "OCEAN_FLOOR_WG"
+      "heightmap": "MOTION_BLOCKING"
+    },
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:all_of",
+        "predicates": [
+          {
+            "type": "minecraft:has_sturdy_face",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "direction": "down"
+          },
+          {
+            "type": "minecraft:matching_fluids",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "fluids": [
+              "minecraft:water",
+              "minecraft:flowing_water"
+            ]
+          }
+        ]
+      }
     }
   ]
 }

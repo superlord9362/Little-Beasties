@@ -29,9 +29,7 @@ public class HollowRemainFeature extends Feature<StructureFeatureConfiguration> 
         BlockPos genAt = context.origin();
         genAt = genAt.above();
 
-        level.setBlock(genAt, Blocks.DIAMOND_BLOCK.defaultBlockState(), 3);
-
-/*        BlockPos structurePos = genAt.below();
+        BlockPos structurePos = genAt.below();
         Rotation rotation = Rotation.getRandom(rand);
         ResourceLocation structureLocation = context.config().structures.get(rand.nextInt(context.config().structures.size()));
         StructureTemplateManager structuretemplatemanager = level.getLevel().getServer().getStructureManager();
@@ -42,10 +40,7 @@ public class HollowRemainFeature extends Feature<StructureFeatureConfiguration> 
         BlockPos blockpos1 = structurePos.offset(-Math.round(rotatedSize.getX() / 2F - 1), 0, (int) -Math.ceil(rotatedSize.getZ() / 2F - 1));
         BlockPos blockpos2 = template.getZeroPositionWithTransform(blockpos1, Mirror.NONE, rotation);
 
-        if (template.placeInWorld(level, blockpos2, blockpos2, settings, rand, 4)) {
-            return true;
-        }*/
-
+        template.placeInWorld(level, blockpos2, blockpos2, settings, rand, 4);
         return true;
     }
 }
