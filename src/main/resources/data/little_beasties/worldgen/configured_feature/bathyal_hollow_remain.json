@@ -1,0 +1,10 @@
+{
+  "type": "little_beasties:hollow_remain",
+  "config": {
+    "structures": [
+      "little_beasties:bathyal_hollow_remain",
+      "little_beasties:big_bathyal_hollow_remain",
+      "little_beasties:small_bathyal_hollow_remain"
+    ]
+  }
+}

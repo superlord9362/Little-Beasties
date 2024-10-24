@@ -114,7 +114,7 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 			this.hasImpulse = true;
 			this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
 		}
-		System.out.println(coralPickTime);
+		//System.out.println(coralPickTime);
 		if (!this.isPicking()) {
 			coralPickTime++;
 		}

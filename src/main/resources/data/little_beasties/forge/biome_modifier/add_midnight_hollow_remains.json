@@ -1,0 +1,6 @@
+{
+	"type": "forge:add_features",
+	"biomes": "#little_beasties:midnight_hollow_remain",
+	"features": "little_beasties:midnight_hollow_remain",
+	"step": "surface_structures"
+}

@@ -68,15 +68,15 @@ public class Collector extends WaterAnimal implements InventoryCarrier, Npc, Mer
 
 	protected void registerGoals() {
 		super.registerGoals();
+		this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
 		this.goalSelector.addGoal(1, new PanicGoal(this, 0.5D));
+		this.goalSelector.addGoal(1, new CollectorTradeWithPlayerGoal(this));
+		this.goalSelector.addGoal(1, new CollectorLookAtTradingPlayerGoal(this));
+		this.goalSelector.addGoal(2, new WanderToPositionGoal(this, 2.0D, 0.35D));
 		this.goalSelector.addGoal(4, new MoveTowardsRestrictionGoal(this, 0.35D));
 		this.goalSelector.addGoal(8, new RandomStrollGoal(this, 0.35D));
 		this.goalSelector.addGoal(9, new InteractGoal(this, Player.class, 3.0F, 1.0F));
 		this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Mob.class, 8.0F));
-		this.goalSelector.addGoal(1, new CollectorTradeWithPlayerGoal(this));
-		this.goalSelector.addGoal(1, new CollectorLookAtTradingPlayerGoal(this));
-		this.goalSelector.addGoal(2, new WanderToPositionGoal(this, 2.0D, 0.35D));
-		this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
 	}
 
 	public InteractionResult mobInteract(Player p_35856_, InteractionHand p_35857_) {
@@ -98,10 +98,6 @@ public class Collector extends WaterAnimal implements InventoryCarrier, Npc, Mer
 
 	public void setTradingPlayer(@Nullable Player p_35314_) {
 		this.tradingPlayer = p_35314_;
-	}
-
-	protected float getWaterSlowDown() {
-		return 1F;
 	}
 
 	@Nullable
@@ -258,47 +254,6 @@ public class Collector extends WaterAnimal implements InventoryCarrier, Npc, Mer
 
 	}
 
-	class WanderToPositionGoal extends Goal {
-		final Collector collector;
-		final double stopDistance;
-		final double speedModifier;
-
-		WanderToPositionGoal(Collector collector, double p_35900_, double p_35901_) {
-			this.collector = collector;
-			this.stopDistance = p_35900_;
-			this.speedModifier = p_35901_;
-			this.setFlags(EnumSet.of(Goal.Flag.MOVE));
-		}
-
-		public void stop() {
-			this.collector.setWanderTarget((BlockPos)null);
-			Collector.this.navigation.stop();
-		}
-
-		public boolean canUse() {
-			BlockPos blockpos = this.collector.getWanderTarget();
-			return blockpos != null && this.isTooFarAway(blockpos, this.stopDistance);
-		}
-
-		public void tick() {
-			BlockPos blockpos = this.collector.getWanderTarget();
-			if (blockpos != null && Collector.this.navigation.isDone()) {
-				if (this.isTooFarAway(blockpos, 10.0D)) {
-					Vec3 vec3 = (new Vec3((double)blockpos.getX() - this.collector.getX(), (double)blockpos.getY() - this.collector.getY(), (double)blockpos.getZ() - this.collector.getZ())).normalize();
-					Vec3 vec31 = vec3.scale(10.0D).add(this.collector.getX(), this.collector.getY(), this.collector.getZ());
-					Collector.this.navigation.moveTo(vec31.x, vec31.y, vec31.z, this.speedModifier);
-				} else {
-					Collector.this.navigation.moveTo((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), this.speedModifier);
-				}
-			}
-
-		}
-
-		private boolean isTooFarAway(BlockPos p_35904_, double p_35905_) {
-			return !p_35904_.closerToCenterThan(this.collector.position(), p_35905_);
-		}
-	}
-
 	public Vec3 getRopeHoldPosition(float p_35318_) {
 		float f = Mth.lerp(p_35318_, this.yBodyRotO, this.yBodyRot) * ((float)Math.PI / 180F);
 		Vec3 vec3 = new Vec3(0.0D, this.getBoundingBox().getYsize() - 1.0D, 0.2D);
@@ -322,7 +277,7 @@ public class Collector extends WaterAnimal implements InventoryCarrier, Npc, Mer
 		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20.0D).add(Attributes.MOVEMENT_SPEED, 0.2D);
 	}
 
-	public class CollectorTrades {
+	static class CollectorTrades {
 		public static final Int2ObjectMap<CollectorTrades.ItemListing[]> COLLECTOR_TRADES = toIntMap(ImmutableMap.of(
 				1, new CollectorTrades.ItemListing[]{new CollectorTrades.ItemsForCoinfrogs(Items.SAND, 1, 16, 8), 
 						new CollectorTrades.ItemsForCoinfrogs(Items.SEA_PICKLE, 1, 1, 5),
@@ -394,6 +349,47 @@ public class Collector extends WaterAnimal implements InventoryCarrier, Npc, Mer
 			}
 		}
 
+	}
+
+	class WanderToPositionGoal extends Goal {
+		final Collector collector;
+		final double stopDistance;
+		final double speedModifier;
+
+		WanderToPositionGoal(Collector collector, double p_35900_, double p_35901_) {
+			this.collector = collector;
+			this.stopDistance = p_35900_;
+			this.speedModifier = p_35901_;
+			this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+		}
+
+		public void stop() {
+			this.collector.setWanderTarget(null);
+			Collector.this.navigation.stop();
+		}
+
+		public boolean canUse() {
+			BlockPos blockpos = this.collector.getWanderTarget();
+			return blockpos != null && this.isTooFarAway(blockpos, this.stopDistance);
+		}
+
+		public void tick() {
+			BlockPos blockpos = this.collector.getWanderTarget();
+			if (blockpos != null && Collector.this.navigation.isDone()) {
+				if (this.isTooFarAway(blockpos, 10.0D)) {
+					Vec3 vec3 = (new Vec3((double)blockpos.getX() - this.collector.getX(), (double)blockpos.getY() - this.collector.getY(), (double)blockpos.getZ() - this.collector.getZ())).normalize();
+					Vec3 vec31 = vec3.scale(10.0D).add(this.collector.getX(), this.collector.getY(), this.collector.getZ());
+					Collector.this.navigation.moveTo(vec31.x, vec31.y, vec31.z, this.speedModifier);
+				} else {
+					Collector.this.navigation.moveTo(blockpos.getX(), blockpos.getY(), blockpos.getZ(), this.speedModifier);
+				}
+			}
+
+		}
+
+		private boolean isTooFarAway(BlockPos p_35904_, double p_35905_) {
+			return !p_35904_.closerToCenterThan(this.collector.position(), p_35905_);
+		}
 	}
 
 }

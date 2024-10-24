@@ -1,7 +1,5 @@
 package superlord.little_beasties.client.entity.render;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -39,7 +37,6 @@ public class SealightRenderer extends MobRenderer<Sealight, EntityModel<Sealight
 		return i == 15 ? 15 : Math.max(i, super.getBlockLightLevel(p_174146_, p_174147_));
 	}
 
-	@Nullable
 	protected RenderType getRenderType(Sealight p_113806_, boolean p_113807_, boolean p_113808_, boolean p_113809_) {
 		ResourceLocation resourcelocation = this.getTextureLocation(p_113806_);
 		return RenderType.entityTranslucent(resourcelocation, false);
