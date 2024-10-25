@@ -3,7 +3,7 @@
   "placement": [
     {
       "type": "minecraft:rarity_filter",
-      "chance": 8
+      "chance": 100
     },
     {
       "type": "minecraft:in_square"
@@ -13,22 +13,13 @@
     },
     {
       "type": "minecraft:heightmap",
-      "heightmap": "OCEAN_FLOOR"
+      "heightmap": "OCEAN_FLOOR_WG"
     },
     {
       "type": "minecraft:block_predicate_filter",
       "predicate": {
-        "type": "minecraft:all_of",
+        "type": "minecraft:any_of",
         "predicates": [
-          {
-            "type": "minecraft:has_sturdy_face",
-            "offset": [
-              0,
-              0,
-              0
-            ],
-            "direction": "down"
-          },
           {
             "type": "minecraft:matching_fluids",
             "offset": [
