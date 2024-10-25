@@ -16,27 +16,30 @@ import superlord.little_beasties.init.LBEntities;
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = LittleBeasties.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
-	
-	public static ModelLayerLocation TROPICAL_DARTFISH = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "tropical_dartfish"), "tropical_dartfish");
-	public static ModelLayerLocation BLUE_MANEFISH = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "blue_manefish"), "blue_manefish");
-	public static ModelLayerLocation SAILDRIFTER = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "saildrifter"), "saildrifter");
-	public static ModelLayerLocation TROPICAL_SEADRAGON = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "tropical_seadragon"), "tropical_seadragon");
-	public static ModelLayerLocation PROBOSCIS_FISH = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "proboscis_fish"), "proboscis_fish");
-	public static ModelLayerLocation WAVE_HORNGLIDER = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "wave_hornglider"), "wave_hornglider");
-	public static ModelLayerLocation SEALIGHT = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "sealight"), "sealight");
-	public static ModelLayerLocation SNAPPY_WOOLBUG = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "snappy_woolbug"), "snappy_woolbug");
-	public static ModelLayerLocation RAINWITCH = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "rainwitch"), "rainwitch");
-	public static ModelLayerLocation COINFROG = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "coinfrog"), "coinfrog");
-	public static ModelLayerLocation COINFROG_TADPOLE = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "coinfrog_tadpole"), "coinfrog_tadpole");
-	public static ModelLayerLocation MOHOMOOHO = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "mohomooho"), "mohomooho");
-	public static ModelLayerLocation DAYDREAM_RAY = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "daydream_ray"), "daydream_ray");
-	public static ModelLayerLocation COLLECTOR = new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, "collector"), "collector");
+	public static ModelLayerLocation TROPICAL_DARTFISH = modelLayer("tropical_dartfish");
+	public static ModelLayerLocation BLUE_MANEFISH = modelLayer("blue_manefish");
+	public static ModelLayerLocation SAILDRIFTER = modelLayer("saildrifter");
+	public static ModelLayerLocation TROPICAL_SEADRAGON = modelLayer("tropical_seadragon");
+	public static ModelLayerLocation PROBOSCIS_FISH = modelLayer("proboscis_fish");
+	public static ModelLayerLocation WAVE_HORNGLIDER = modelLayer("wave_hornglider");
+	public static ModelLayerLocation SEALIGHT = modelLayer("sealight");
+	public static ModelLayerLocation SNAPPY_WOOLBUG = modelLayer("snappy_woolbug");
+	public static ModelLayerLocation RAINWITCH = modelLayer("rainwitch");
+	public static ModelLayerLocation COINFROG = modelLayer("coinfrog");
+	public static ModelLayerLocation COINFROG_TADPOLE = modelLayer("coinfrog_tadpole");
+	public static ModelLayerLocation MOHOMOOHO = modelLayer("mohomooho");
+	public static ModelLayerLocation DAYDREAM_RAY = modelLayer("daydream_ray");
+	public static ModelLayerLocation COLLECTOR = modelLayer("collector");
+
+	private static ModelLayerLocation modelLayer(String name) {
+		return new ModelLayerLocation(new ResourceLocation(LittleBeasties.MOD_ID, name), "main");
+	}
 
 	@SubscribeEvent
 	public static void init(final FMLClientSetupEvent event) {
-		ClientProxy.setupBlockRenders();
+
 	}
-	
+
 	@SubscribeEvent
 	public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(LBEntities.TROPICAL_DARTFISH.get(), TropicalDartfishRenderer::new);

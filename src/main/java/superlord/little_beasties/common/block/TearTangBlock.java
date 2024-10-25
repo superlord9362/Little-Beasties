@@ -17,29 +17,28 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.BushBlock;
-import net.minecraft.world.level.block.LiquidBlockContainer;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.ForgeHooks;
 import superlord.little_beasties.init.LBItems;
 
-public class TearTangBlock extends BushBlock implements BonemealableBlock, LiquidBlockContainer {
+public class TearTangBlock extends BushBlock implements BonemealableBlock, SimpleWaterloggedBlock {
 	public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
+	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[] {Block.box(0.0D, 0.0D, 0.0D, 16.0D, 5.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.box(0, 0, 0, 16, 16, 16)};
 
 	public TearTangBlock(Properties p_51021_) {
 		super(p_51021_);
-		this.registerDefaultState(this.stateDefinition.any().setValue(this.getAgeProperty(), Integer.valueOf(0)));
+		this.registerDefaultState(this.stateDefinition.any().setValue(this.getAgeProperty(), 0).setValue(WATERLOGGED, false));
 	}
 
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
@@ -78,26 +77,27 @@ public class TearTangBlock extends BushBlock implements BonemealableBlock, Liqui
 			int i = this.getAge(state);
 			if (i < this.getMaxAge()) {
 				float f = getGrowthChance(this, worldIn, pos);
-				if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int)(25.0F / f) + 1) == 0)) {
+				if (ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int)(25.0F / f) + 1) == 0)) {
 					worldIn.setBlock(pos, this.withAge(i + 1), 2);
-					net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state);
+					ForgeHooks.onCropsGrowPost(worldIn, pos, state);
 				}
 			}
 		}
 	}
 
 	@Nullable
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return ifluidstate.is(FluidTags.WATER) && ifluidstate.getAmount() == 8 ? super.getStateForPlacement(context) : null;
+	public BlockState getStateForPlacement(BlockPlaceContext p_51454_) {
+		FluidState fluidstate = p_51454_.getLevel().getFluidState(p_51454_.getClickedPos());
+		boolean flag = fluidstate.getType() == Fluids.WATER;
+		return super.getStateForPlacement(p_51454_).setValue(WATERLOGGED, flag);
 	}
 
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
-		BlockState blockstate = super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
-		if (!blockstate.isAir()) {
-			worldIn.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(worldIn));
+	public BlockState updateShape(BlockState p_51461_, Direction p_51462_, BlockState p_51463_, LevelAccessor p_51464_, BlockPos p_51465_, BlockPos p_51466_) {
+		if (p_51461_.getValue(WATERLOGGED)) {
+			p_51464_.scheduleTick(p_51465_, Fluids.WATER, Fluids.WATER.getTickDelay(p_51464_));
 		}
-		return blockstate;
+
+		return super.updateShape(p_51461_, p_51462_, p_51463_, p_51464_, p_51465_, p_51466_);
 	}
 
 	public void grow(Level worldIn, BlockPos pos, BlockState state) {
@@ -132,16 +132,17 @@ public class TearTangBlock extends BushBlock implements BonemealableBlock, Liqui
 	public boolean isBonemealSuccess(Level p_52268_, Random p_52269_, BlockPos p_52270_, BlockState p_52271_) {
 		return true;
 	}
+
 	public void performBonemeal(ServerLevel worldIn, Random rand, BlockPos pos, BlockState state) {
 		this.grow(worldIn, pos, state);
 	}
 
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(AGE);
+		builder.add(AGE).add(WATERLOGGED);
 	}
 
-	public FluidState getFluidState(BlockState state) {
-		return Fluids.WATER.getSource(false);
+	public FluidState getFluidState(BlockState p_51475_) {
+		return p_51475_.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(p_51475_);
 	}
 
 	public boolean canPlaceLiquid(BlockGetter p_154505_, BlockPos p_154506_, BlockState p_154507_, Fluid p_154508_) {

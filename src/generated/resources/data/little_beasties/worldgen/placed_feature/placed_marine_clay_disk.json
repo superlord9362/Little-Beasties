@@ -2,7 +2,7 @@
   "feature": "little_beasties:configured_marine_clay_disk",
   "placement": [
     {
-      "type": "minecraft:count_on_every_layer",
+      "type": "minecraft:count",
       "count": 1
     },
     {

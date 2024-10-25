@@ -186,8 +186,6 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 	}
 
 	public class ChargeRedBlockGoal extends MoveToBlockGoal {
-		@SuppressWarnings("unused")
-		private static final int WAIT_TICKS = 40;
 		protected int ticksWaited;
 
 		public ChargeRedBlockGoal(double p_28675_, int p_28676_, int p_28677_) {
@@ -204,7 +202,7 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 
 		protected boolean isValidTarget(LevelReader p_28680_, BlockPos p_28681_) {
 			BlockState blockstate = p_28680_.getBlockState(p_28681_);
-			return blockstate.is(LBTags.RED_BLOCKS);
+			return blockstate.is(LBTags.RED_BLOCKS); // todo - use block map color? would be better for compat
 		}
 
 		public void tick() {

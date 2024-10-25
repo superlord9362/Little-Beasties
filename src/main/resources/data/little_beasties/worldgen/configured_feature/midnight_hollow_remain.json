@@ -1,0 +1,10 @@
+{
+  "type": "little_beasties:hollow_remain",
+  "config": {
+    "structures": [
+      "little_beasties:midnight_hollow_remain",
+      "little_beasties:big_midnight_hollow_remain",
+      "little_beasties:small_midnight_hollow_remain"
+    ]
+  }
+}
