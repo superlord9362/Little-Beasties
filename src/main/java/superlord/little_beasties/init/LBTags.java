@@ -10,7 +10,8 @@ import superlord.little_beasties.LittleBeasties;
 public class LBTags {
 
 	public static final TagKey<Block> RED_BLOCKS = registerBlockTag("red_blocks");
-	
+	public static final TagKey<Block> TEARTANG_GROW_ON = registerBlockTag("teartang_grown_on");
+
 	public static final TagKey<Biome> HAS_BATHYAL_HOLLOW_REMAINS = registerBiomeTag("has_structure/bathyal_hollow_remain");
 	public static final TagKey<Biome> HAS_INTERTIDAL_HOLLOW_REMAINS = registerBiomeTag("has_structure/intertidal_hollow_remain");
 	public static final TagKey<Biome> HAS_MIDNIGHT_HOLLOW_REMAINS = registerBiomeTag("has_structure/midnight_hollow_remain");

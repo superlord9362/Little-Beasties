@@ -30,6 +30,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.ForgeHooks;
 import superlord.little_beasties.init.LBItems;
+import superlord.little_beasties.init.LBTags;
 
 public class TearTangBlock extends BushBlock implements BonemealableBlock, SimpleWaterloggedBlock {
 	public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
@@ -46,7 +47,7 @@ public class TearTangBlock extends BushBlock implements BonemealableBlock, Simpl
 	}
 
 	protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos) {
-		return state.isFaceSturdy(worldIn, pos, Direction.UP) && state.getBlock() == Blocks.MOSS_BLOCK;
+		return state.isFaceSturdy(worldIn, pos, Direction.UP) || state.is(LBTags.TEARTANG_GROW_ON);
 	}
 
 	public IntegerProperty getAgeProperty() {
@@ -69,17 +70,15 @@ public class TearTangBlock extends BushBlock implements BonemealableBlock, Simpl
 		return state.getValue(this.getAgeProperty()) >= this.getMaxAge();
 	}
 
-	@SuppressWarnings("deprecation")
-	public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand) {
-		super.tick(state, worldIn, pos, rand);
-		if(!worldIn.isAreaLoaded(pos, 1)) return;
-		if(worldIn.getRawBrightness(pos, 0) >= 9) {
-			int i = this.getAge(state);
+	public void randomTick(BlockState p_221050_, ServerLevel p_221051_, BlockPos p_221052_, RandomSource p_221053_) {
+		if (!p_221051_.isAreaLoaded(p_221052_, 1)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light
+		if (p_221051_.getRawBrightness(p_221052_, 0) >= 9) {
+			int i = this.getAge(p_221050_);
 			if (i < this.getMaxAge()) {
-				float f = getGrowthChance(this, worldIn, pos);
-				if (ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int)(25.0F / f) + 1) == 0)) {
-					worldIn.setBlock(pos, this.withAge(i + 1), 2);
-					ForgeHooks.onCropsGrowPost(worldIn, pos, state);
+				float f = 1.0F;
+				if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(p_221051_, p_221052_, p_221050_, p_221053_.nextInt((int)(25.0F / f) + 1) == 0)) {
+					p_221051_.setBlock(p_221052_, this.getStateForAge(i + 1).setValue(WATERLOGGED, p_221050_.getValue(WATERLOGGED)), 2);
+					net.minecraftforge.common.ForgeHooks.onCropsGrowPost(p_221051_, p_221052_, p_221050_);
 				}
 			}
 		}
@@ -100,21 +99,8 @@ public class TearTangBlock extends BushBlock implements BonemealableBlock, Simpl
 		return super.updateShape(p_51461_, p_51462_, p_51463_, p_51464_, p_51465_, p_51466_);
 	}
 
-	public void grow(Level worldIn, BlockPos pos, BlockState state) {
-		int i = this.getAge(state) + this.getBonemealAgeIncrease(worldIn);
-		int j = this.getMaxAge();
-		if (i > j) {
-			i = j;
-		}
-		worldIn.setBlock(pos, this.withAge(i), 2);
-	}
-
 	protected int getBonemealAgeIncrease(Level worldIn) {
 		return Mth.nextInt(worldIn.random, 1, 2);
-	}
-
-	protected static float getGrowthChance(Block blockIn, LevelReader worldIn, BlockPos pos) {
-		return 1.0f;
 	}
 
 	protected ItemLike getBaseSeedId() {
@@ -123,18 +109,6 @@ public class TearTangBlock extends BushBlock implements BonemealableBlock, Simpl
 
 	public ItemStack getItem(LevelReader worldIn, BlockPos pos, BlockState state) {
 		return new ItemStack(this.getBaseSeedId());
-	}
-
-	public boolean isValidBonemealTarget(BlockGetter p_52258_, BlockPos p_52259_, BlockState state, boolean p_52261_) {
-		return !this.isMaxAge(state);
-	}
-
-	public boolean isBonemealSuccess(Level p_52268_, Random p_52269_, BlockPos p_52270_, BlockState p_52271_) {
-		return true;
-	}
-
-	public void performBonemeal(ServerLevel worldIn, Random rand, BlockPos pos, BlockState state) {
-		this.grow(worldIn, pos, state);
 	}
 
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -154,14 +128,14 @@ public class TearTangBlock extends BushBlock implements BonemealableBlock, Simpl
 		return false;
 	}
 
-	public void growCrops(Level p_52264_, BlockPos p_52265_, BlockState p_52266_) {
-		int i = this.getAge(p_52266_) + this.getBonemealAgeIncrease(p_52264_);
+	public void growCrops(Level level, BlockPos pos, BlockState state) {
+		int i = this.getAge(state) + this.getBonemealAgeIncrease(level);
 		int j = this.getMaxAge();
 		if (i > j) {
 			i = j;
 		}
 
-		p_52264_.setBlock(p_52265_, this.getStateForAge(i), 2);
+		level.setBlock(pos, this.getStateForAge(i).setValue(WATERLOGGED, state.getValue(WATERLOGGED)), 2);
 	}
 
 	public BlockState getStateForAge(int p_52290_) {

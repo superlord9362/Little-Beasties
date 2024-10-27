@@ -105,7 +105,7 @@ public class LBBlocks {
 	public static final RegistryObject<Block> WHITE_GLAZED_MARINE_TERRACOTTA = REGISTER.register("white_glazed_marine_terracotta", () -> new GlazedTerracottaBlock(Properties.of().mapColor(DyeColor.WHITE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(1.4F).pushReaction(PushReaction.PUSH_ONLY)));
 	public static final RegistryObject<Block> YELLOW_GLAZED_MARINE_TERRACOTTA = REGISTER.register("yellow_glazed_marine_terracotta", () -> new GlazedTerracottaBlock(Properties.of().mapColor(DyeColor.YELLOW).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(1.4F).pushReaction(PushReaction.PUSH_ONLY)));
 
-	public static final RegistryObject<Block> TEARTANG = REGISTER.register("teartang", () -> new TearTangBlock(Properties.of().instabreak().noCollission().sound(SoundType.SLIME_BLOCK).pushReaction(PushReaction.DESTROY)));
+	public static final RegistryObject<Block> TEARTANG = REGISTER.register("teartang", () -> new TearTangBlock(Properties.of().instabreak().noCollission().sound(SoundType.SLIME_BLOCK).pushReaction(PushReaction.DESTROY).randomTicks()));
 
 	public static final RegistryObject<Block> TEARTANG_BLOCK = REGISTER.register("teartang_block", () -> new Block(Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).sound(SoundType.WET_GRASS)));
 	
