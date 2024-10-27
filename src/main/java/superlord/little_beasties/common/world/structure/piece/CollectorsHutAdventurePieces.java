@@ -1,7 +1,9 @@
 package superlord.little_beasties.common.world.structure.piece;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
@@ -11,6 +13,7 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -26,6 +29,9 @@ import superlord.little_beasties.LittleBeasties;
 import superlord.little_beasties.common.entity.Collector;
 import superlord.little_beasties.init.LBEntities;
 import superlord.little_beasties.init.LBStructures.LBStructurePieceType;
+import superlord.little_beasties.init.LBTags;
+
+import java.util.Optional;
 
 public class CollectorsHutAdventurePieces {
 	static final BlockPos PIVOT = new BlockPos(0, 0, 0);
@@ -89,6 +95,16 @@ public class CollectorsHutAdventurePieces {
 						collector.finalizeSpawn(level, level.getCurrentDifficultyAt(blockpos), MobSpawnType.STRUCTURE, null, null);
 						level.addFreshEntityWithPassengers(collector);
 					}
+				}
+			}
+
+			Optional<Block> scaleBlock = BuiltInRegistries.BLOCK.getTag(LBTags.TROPICAL_SCALEBLOCK).flatMap((p_224980_) -> {
+				return p_224980_.getRandomElement(level.getRandom());
+			}).map(Holder::value);
+
+			if (name.equals("scaleblock")) {
+				if (bb.isInside(blockpos)) {
+					level.setBlock(blockpos, scaleBlock.get().defaultBlockState(), -1);
 				}
 			}
 		}
