@@ -22,11 +22,11 @@ public class LBBiomeModifier implements BiomeModifier {
 		if (phase == Phase.ADD) {
 			if (biome.is(BiomeTags.IS_OVERWORLD)) {
 				if (biome.is(Biomes.LUKEWARM_OCEAN)) {
-					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.TROPICAL_DARTFISH.get(), 12, 5, 10));
+					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.TROPICAL_DARTFISH.get(), 20, 5, 10));
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.SAILDRIFTER.get(), 12, 5, 10));
 				}
 				if (biome.is(Biomes.WARM_OCEAN)) {
-					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.BLUE_MANEFISH.get(), 18, 1, 3));
+					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.BLUE_MANEFISH.get(), 25, 1, 3));
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.TROPICAL_SEADRAGON.get(), 5, 1, 2));
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.PROBOSCIS_FISH.get(), 12, 3, 6));
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.WAVE_HORNGLIDER.get(), 2, 1, 2));

@@ -29,6 +29,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.InteractGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -47,6 +48,7 @@ import net.minecraft.world.item.trading.Merchant;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import superlord.little_beasties.common.entity.goal.CollectorLookAtTradingPlayerGoal;
 import superlord.little_beasties.common.entity.goal.CollectorTradeWithPlayerGoal;
@@ -64,17 +66,19 @@ public class Collector extends WaterAnimal implements InventoryCarrier, Npc, Mer
 
 	public Collector(EntityType<? extends WaterAnimal> p_30341_, Level p_30342_) {
 		super(p_30341_, p_30342_);
+		this.moveControl = new MoveHelperController(this);
+		this.setMaxUpStep(1.0F);
 	}
 
 	protected void registerGoals() {
 		super.registerGoals();
 		this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
-		this.goalSelector.addGoal(1, new PanicGoal(this, 0.5D));
+		this.goalSelector.addGoal(1, new PanicGoal(this, 1.0D));
 		this.goalSelector.addGoal(1, new CollectorTradeWithPlayerGoal(this));
 		this.goalSelector.addGoal(1, new CollectorLookAtTradingPlayerGoal(this));
-		this.goalSelector.addGoal(2, new WanderToPositionGoal(this, 2.0D, 0.35D));
-		this.goalSelector.addGoal(4, new MoveTowardsRestrictionGoal(this, 0.35D));
-		this.goalSelector.addGoal(8, new RandomStrollGoal(this, 0.35D));
+		this.goalSelector.addGoal(2, new WanderToPositionGoal(this, 2.0D, 1.0D));
+		this.goalSelector.addGoal(4, new MoveTowardsRestrictionGoal(this, 1.0D));
+		this.goalSelector.addGoal(8, new RandomStrollGoal(this, 1.0D));
 		this.goalSelector.addGoal(9, new InteractGoal(this, Player.class, 3.0F, 1.0F));
 		this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Mob.class, 8.0F));
 	}
@@ -392,4 +396,39 @@ public class Collector extends WaterAnimal implements InventoryCarrier, Npc, Mer
 		}
 	}
 
+	static class MoveHelperController extends MoveControl {
+		private final Collector collector;
+
+		MoveHelperController(Collector collector) {
+			super(collector);
+			this.collector = collector;
+		}
+
+		public void tick() {
+			if (this.collector.horizontalCollision && this.collector.level().getBlockState(this.collector.blockPosition().above()).getBlock() == Blocks.WATER) {
+				this.collector.setDeltaMovement(this.collector.getDeltaMovement().add(0.0D, 0.025D, 0.0D));
+			}
+			if (this.operation == MoveControl.Operation.MOVE_TO && !this.collector.getNavigation().isDone()) {
+				double d0 = this.wantedX - this.collector.getX();
+				double d1 = this.wantedY - this.collector.getY();
+				double d2 = this.wantedZ - this.collector.getZ();
+				double d3 = Mth.sqrt((float) (d0 * d0 + d1 * d1 + d2 * d2));
+				d1 = d1 / d3;
+				float f = (float) (Mth.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
+				this.collector.setYRot(this.rotlerp(this.collector.getYRot(), f, 90.0F));
+				this.collector.yBodyRot = this.collector.getYRot();
+
+				float f1 = (float) (this.speedModifier * this.collector.getAttributeValue(Attributes.MOVEMENT_SPEED));
+				if (collector.isInWater()) {
+					float speedMod = 5.0F;
+					f1 = f1 * speedMod;
+				}
+
+				this.collector.setSpeed(Mth.lerp(0.125F, this.collector.getSpeed(), f1));
+				this.collector.setDeltaMovement(this.collector.getDeltaMovement().add(0.0D, (double) this.collector.getSpeed() * d1 * 0.1D, 0.0D));
+			} else {
+				this.collector.setSpeed(0.0F);
+			}
+		}
+	}
 }

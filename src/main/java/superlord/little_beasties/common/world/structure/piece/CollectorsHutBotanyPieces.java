@@ -1,9 +1,14 @@
 package superlord.little_beasties.common.world.structure.piece;
 
+import com.mojang.math.OctahedralGroup;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -11,8 +16,8 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -26,6 +31,9 @@ import superlord.little_beasties.LittleBeasties;
 import superlord.little_beasties.common.entity.Collector;
 import superlord.little_beasties.init.LBEntities;
 import superlord.little_beasties.init.LBStructures.LBStructurePieceType;
+import superlord.little_beasties.init.LBTags;
+
+import java.util.Optional;
 
 public class CollectorsHutBotanyPieces {
 	static final BlockPos PIVOT = new BlockPos(0, 0, 0);
@@ -89,6 +97,31 @@ public class CollectorsHutBotanyPieces {
 						collector.finalizeSpawn(level, level.getCurrentDifficultyAt(blockpos), MobSpawnType.STRUCTURE, null, null);
 						level.addFreshEntityWithPassengers(collector);
 					}
+				}
+			}
+
+			Optional<Block> coral = BuiltInRegistries.BLOCK.getTag(BlockTags.WALL_CORALS).flatMap((p_224980_) -> {
+				return p_224980_.getRandomElement(level.getRandom());
+			}).map(Holder::value);
+
+			if (name.equals("coral_side")) {
+				if (bb.isInside(blockpos)) {
+					level.setBlock(blockpos, coral.get().defaultBlockState().setValue(CoralWallFanBlock.WATERLOGGED, true).setValue(BaseCoralWallFanBlock.FACING, Direction.from2DDataValue(getRotation().ordinal()).getClockWise().getOpposite()), -1);
+				}
+			}
+			if (name.equals("coral_back")) {
+				if (bb.isInside(blockpos)) {
+					level.setBlock(blockpos, coral.get().defaultBlockState().setValue(CoralWallFanBlock.WATERLOGGED, true).setValue(BaseCoralWallFanBlock.FACING, Direction.from2DDataValue(getRotation().ordinal()).getOpposite()), -1);
+				}
+			}
+
+			Optional<Block> scaleBlock = BuiltInRegistries.BLOCK.getTag(LBTags.TROPICAL_SCALEBLOCK).flatMap((p_224980_) -> {
+				return p_224980_.getRandomElement(level.getRandom());
+			}).map(Holder::value);
+
+			if (name.equals("scaleblock")) {
+				if (bb.isInside(blockpos)) {
+					level.setBlock(blockpos, scaleBlock.get().defaultBlockState(), -1);
 				}
 			}
 		}
