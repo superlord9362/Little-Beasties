@@ -22,7 +22,7 @@ public class LBBiomeModifier implements BiomeModifier {
 		if (phase == Phase.ADD) {
 			if (biome.is(BiomeTags.IS_OVERWORLD)) {
 				if (biome.is(Biomes.LUKEWARM_OCEAN)) {
-					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.TROPICAL_DARTFISH.get(), 12, 5, 10));
+					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.TROPICAL_DARTFISH.get(), 20, 5, 10));
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.SAILDRIFTER.get(), 12, 5, 10));
 				}
 				if (biome.is(Biomes.WARM_OCEAN)) {
