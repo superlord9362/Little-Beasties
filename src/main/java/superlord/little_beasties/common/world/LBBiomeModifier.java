@@ -22,7 +22,7 @@ public class LBBiomeModifier implements BiomeModifier {
 		if (phase == Phase.ADD) {
 			if (biome.is(BiomeTags.IS_OVERWORLD)) {
 				if (biome.is(Biomes.LUKEWARM_OCEAN)) {
-					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.TROPICAL_DARTFISH.get(), 12, 5, 10));
+					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.TROPICAL_DARTFISH.get(), 18, 5, 10));
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.SAILDRIFTER.get(), 12, 5, 10));
 				}
 				if (biome.is(Biomes.WARM_OCEAN)) {
@@ -35,7 +35,7 @@ public class LBBiomeModifier implements BiomeModifier {
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.SEA_LIGHT.get(), 6, 1, 4));
 				}
 				if (biome.is(BiomeTags.IS_TAIGA)) {
-					builder.getMobSpawnSettings().addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(LBEntities.SNAPPY_WOOLBUG.get(), 9, 1, 2));
+					builder.getMobSpawnSettings().addSpawn(MobCategory.AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.SNAPPY_WOOLBUG.get(), 12, 2, 5));
 				}
 				if (biome.is(Biomes.SWAMP)) {
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.RAINWITCH.get(), 12, 2, 5));
@@ -45,7 +45,7 @@ public class LBBiomeModifier implements BiomeModifier {
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.RAINWITCH.get(), 12, 2, 5));
 				}
 				if (biome.is(BiomeTags.IS_JUNGLE)) {
-					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.COINFROG.get(), 3, 1, 3));
+					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.COINFROG.get(), 6, 1, 3));
 				}
 				if (biome.is(Biomes.DEEP_OCEAN)) {
 					builder.getMobSpawnSettings().addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(LBEntities.DAYDREAM_RAY.get(), 2, 1, 1));

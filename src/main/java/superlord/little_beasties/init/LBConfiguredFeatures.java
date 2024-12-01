@@ -17,31 +17,36 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.RuleBasedBlockS
 import superlord.little_beasties.LittleBeasties;
 
 public class LBConfiguredFeatures {
+	@SuppressWarnings("unused")
 	private static final List<ResourceLocation> BATHYAL = List.of(
 			LittleBeasties.rl("bathyal_hollow_remain"),
 			LittleBeasties.rl("big_bathyal_hollow_remain"),
 			LittleBeasties.rl("small_bathyal_hollow_remain")
-	);
+			);
+	@SuppressWarnings("unused")
 	private static final List<ResourceLocation> INTERTIDAL = List.of(
 			LittleBeasties.rl("intertidal_hollow_remain"),
 			LittleBeasties.rl("big_intertidal_hollow_remain"),
 			LittleBeasties.rl("small_intertidal_hollow_remain")
-	);
+			);
+	@SuppressWarnings("unused")
 	private static final List<ResourceLocation> MIDNIGHT = List.of(
 			LittleBeasties.rl("midnight_hollow_remain"),
 			LittleBeasties.rl("big_midnight_hollow_remain"),
 			LittleBeasties.rl("small_midnight_hollow_remain")
-	);
+			);
+	@SuppressWarnings("unused")
 	private static final List<ResourceLocation> SANDY = List.of(
 			LittleBeasties.rl("sandy_hollow_remain"),
 			LittleBeasties.rl("big_sandy_hollow_remain"),
 			LittleBeasties.rl("small_sandy_hollow_remain")
-	);
+			);
+	@SuppressWarnings("unused")
 	private static final List<ResourceLocation> SPUME = List.of(
 			LittleBeasties.rl("spume_hollow_remain"),
 			LittleBeasties.rl("big_spume_hollow_remain"),
 			LittleBeasties.rl("small_spume_hollow_remain")
-	);
+			);
 
 	public static final ResourceKey<ConfiguredFeature<?, ?>> MARINE_CLAY_DISK = registerConfiguredFeature("configured_marine_clay_disk");
 

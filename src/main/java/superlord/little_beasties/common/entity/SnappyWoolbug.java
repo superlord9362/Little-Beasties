@@ -24,7 +24,6 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -116,8 +115,7 @@ public class SnappyWoolbug extends PathfinderMob {
 			if (this.hasCustomName()) {
 				dropStack.setHoverName(getCustomName());
 			}
-			ItemEntity itementity = new ItemEntity(this.level(), this.getX(), this.getY() + 1.0D, this.getZ(), dropStack);
-			this.level().addFreshEntity(itementity);
+			player.setItemInHand(InteractionHand.MAIN_HAND, dropStack);
 			this.discard();
 			return InteractionResult.SUCCESS;
 		} else {

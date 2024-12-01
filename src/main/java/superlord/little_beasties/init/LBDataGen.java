@@ -14,7 +14,7 @@ import superlord.little_beasties.LittleBeasties;
 public class LBDataGen extends DatapackBuiltinEntriesProvider {
 	
 	private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
-			.add(Registries.CONFIGURED_FEATURE, LBConfiguredFeatures::bootstrap)
+			.add(Registries.CONFIGURED_FEATURE, ctx -> LBConfiguredFeatures.bootstrap(ctx))
 			.add(Registries.PLACED_FEATURE, LBPlacedFeatures::bootstrap)
             .add(ForgeRegistries.Keys.BIOME_MODIFIERS, LBBiomeFeatures::bootstrap)
             .add(Registries.STRUCTURE, LBStructures::bootstrap)

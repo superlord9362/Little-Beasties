@@ -232,6 +232,22 @@ public class Collector extends WaterAnimal implements InventoryCarrier, Npc, Mer
 		}
 	}
 
+	private void resendOffersToTradingPlayer() {
+		MerchantOffers merchantoffers = this.getOffers();
+		Player player = this.getTradingPlayer();
+		if (player != null && !merchantoffers.isEmpty()) {
+			player.sendMerchantOffers(player.containerMenu.containerId, merchantoffers, 0, this.getVillagerXp(), this.showProgressBar(), this.canRestock());
+		}
+
+	}
+
+	public void aiStep() {
+		super.aiStep();
+		if (this.level().getDayTime() % 24000 == 0) {
+			resendOffersToTradingPlayer();
+		}
+	}
+
 	protected void addOffersFromItemListings(MerchantOffers p_35278_, CollectorTrades.ItemListing[] p_35279_, int p_35280_) {
 		Set<Integer> set = Sets.newHashSet();
 		if (p_35279_.length > p_35280_) {

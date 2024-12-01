@@ -6,7 +6,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.StructureManager;
@@ -79,6 +78,7 @@ public class CollectorsHutAdventurePieces {
 			super.postProcess(p_229363_, p_229364_, p_229365_, p_229366_, p_229367_, p_229368_, p_229369_);
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		protected void handleDataMarker(String name, BlockPos blockpos, ServerLevelAccessor level, RandomSource p_226909_, BoundingBox bb) {
 			if (name.equals("collector")) {

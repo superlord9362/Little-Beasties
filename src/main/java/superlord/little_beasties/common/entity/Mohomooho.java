@@ -3,6 +3,7 @@ package superlord.little_beasties.common.entity;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -46,9 +47,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.Vec3;
 import superlord.little_beasties.init.LBItems;
-import superlord.little_beasties.init.LBTags;
 
 public class Mohomooho extends WaterAnimal implements Bucketable {
 	private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(Mohomooho.class, EntityDataSerializers.BOOLEAN);
@@ -137,6 +138,7 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 			}
 			if (entity instanceof Salmon || entity instanceof TropicalDartfish || entity instanceof Sniffer || entity instanceof MushroomCow || entity instanceof Strider) this.setTarget(entity);
 		}
+		this.level().addParticle(ParticleTypes.SNEEZE, this.getX(), this.getY(), this.getZ(), 0, 0, 0);
 		super.aiStep();
 	}
 
@@ -193,7 +195,7 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 		}
 
 		public double acceptedDistance() {
-			return 2.0D;
+			return 1.0D;
 		}
 
 		public boolean shouldRecalculatePath() {
@@ -202,7 +204,7 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 
 		protected boolean isValidTarget(LevelReader p_28680_, BlockPos p_28681_) {
 			BlockState blockstate = p_28680_.getBlockState(p_28681_);
-			return blockstate.is(LBTags.RED_BLOCKS); // todo - use block map color? would be better for compat
+			return blockstate.getMapColor(p_28680_, p_28681_).equals(MapColor.COLOR_RED) || blockstate.getMapColor(p_28680_, p_28681_).equals(MapColor.TERRACOTTA_RED); // todo - use block map color? would be better for compat
 		}
 
 		public void tick() {

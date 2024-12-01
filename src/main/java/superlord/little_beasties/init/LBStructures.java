@@ -56,6 +56,7 @@ public class LBStructures {
 		return new Structure.StructureSettings(p_256015_, p_256297_, p_255729_, p_255865_);
 	}
 
+	@SuppressWarnings("unused")
 	private static Structure.StructureSettings structure(HolderSet<Biome> p_256501_, TerrainAdjustment p_255704_) {
 		return structure(p_256501_, Map.of(), GenerationStep.Decoration.SURFACE_STRUCTURES, p_255704_);
 	}
