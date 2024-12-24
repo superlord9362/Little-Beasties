@@ -3,7 +3,6 @@ package superlord.little_beasties.common.entity;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -50,11 +49,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.Vec3;
 import superlord.little_beasties.init.LBItems;
+import superlord.little_beasties.init.LBParticles;
 
 public class Mohomooho extends WaterAnimal implements Bucketable {
 	private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(Mohomooho.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(Mohomooho.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Boolean> STUNNED = SynchedEntityData.defineId(Mohomooho.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> STUNNED_PARTICLE = SynchedEntityData.defineId(Mohomooho.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> CAN_RAM = SynchedEntityData.defineId(Mohomooho.class, EntityDataSerializers.BOOLEAN);
+	private int ramTime = 0;
 
 	public Mohomooho(EntityType<? extends WaterAnimal> p_30341_, Level p_30342_) {
 		super(p_30341_, p_30342_);
@@ -126,11 +129,32 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 			this.hasImpulse = true;
 			this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
 		}
+		if (!this.canRam()) {
+			ramTime++;
+		}
+		if (ramTime == 3000) {
+			this.setCanRam(true);
+			ramTime = 0;
+		}
 		if (this.isStunned()) {
-			for (int i = 200; i > 0; i--) {
-				if (i == 0) this.setStunned(false);
+			if (!this.hasParticle()) {
+				this.level().addParticle(LBParticles.IMPACT.get(), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
+				for (Mob entity : this.level().getEntitiesOfClass(Mob.class, this.getBoundingBox().inflate(6, 6, 6))) {
+					this.level().addParticle(LBParticles.STUNNED.get(), entity.getX(), entity.getY() + 1, entity.getZ(), 0, 0, 0);
+				}
+				this.setHasParticle(true);
 			}
-			this.navigation.stop();
+			for (int i = 200; i > 0; i--) {
+				if (i == 0) {
+					this.setStunned(false);
+					this.setHasParticle(false);
+				}
+			}
+			for (Mob entity : this.level().getEntitiesOfClass(Mob.class, this.getBoundingBox().inflate(6, 6, 6))) {
+				entity.getNavigation().stop();
+			}
+		} else {
+			if (this.hasParticle()) this.setHasParticle(false);
 		}
 		for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(6, 6, 6))) {
 			if (entity instanceof Mohomooho mohomooho) {
@@ -138,7 +162,6 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 			}
 			if (entity instanceof Salmon || entity instanceof TropicalDartfish || entity instanceof Sniffer || entity instanceof MushroomCow || entity instanceof Strider) this.setTarget(entity);
 		}
-		this.level().addParticle(ParticleTypes.SNEEZE, this.getX(), this.getY(), this.getZ(), 0, 0, 0);
 		super.aiStep();
 	}
 
@@ -147,6 +170,8 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 		this.entityData.define(COLOR, 0);
 		this.entityData.define(STUNNED, false);
 		this.entityData.define(FROM_BUCKET, false);
+		this.entityData.define(STUNNED_PARTICLE, false);
+		this.entityData.define(CAN_RAM, false);
 	}
 
 	@Override
@@ -155,6 +180,7 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 		tag.putInt("Color", this.getColor());
 		tag.putBoolean("FromBucket", this.fromBucket());
 		tag.putBoolean("Stunned", this.isStunned());
+		tag.putBoolean("CanRam", this.canRam());
 	}
 
 	@Override
@@ -163,6 +189,7 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 		this.setColor(tag.getInt("Color"));
 		this.setStunned(tag.getBoolean("Stunned"));
 		this.setFromBucket(tag.getBoolean("FromBucket"));
+		this.setCanRam(tag.getBoolean("CanRam"));
 	}
 
 	public int getColor() {
@@ -172,6 +199,14 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 	public void setColor(int color) {
 		this.entityData.set(COLOR, color);
 	}
+	
+	public boolean hasParticle() {
+		return this.entityData.get(STUNNED_PARTICLE);
+	}
+	
+	public void setHasParticle(boolean particled) {
+		this.entityData.set(STUNNED_PARTICLE, particled);
+	}
 
 	public boolean isStunned() {
 		return this.entityData.get(STUNNED);
@@ -179,6 +214,14 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 
 	public void setStunned(boolean stunned) {
 		this.entityData.set(STUNNED, stunned);
+	}
+	
+	public boolean canRam() {
+		return this.entityData.get(CAN_RAM);
+	}
+	
+	public void setCanRam(boolean canRam) {
+		this.entityData.set(CAN_RAM, canRam);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -211,6 +254,7 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 			if (this.isReachedTarget()) {
 				if (this.ticksWaited >= 40) {
 					Mohomooho.this.setStunned(true);
+					Mohomooho.this.setCanRam(false);
 				} else {
 					++this.ticksWaited;
 				}
@@ -220,7 +264,11 @@ public class Mohomooho extends WaterAnimal implements Bucketable {
 		}
 
 		public boolean canUse() {
-			return super.canUse();
+			return super.canUse() && Mohomooho.this.canRam();
+		}
+		
+		public boolean canContinueToUse() {
+			return super.canContinueToUse() && Mohomooho.this.canRam();
 		}
 
 		public void start() {

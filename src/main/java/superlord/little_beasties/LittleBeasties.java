@@ -2,6 +2,9 @@ package superlord.little_beasties;
 
 import java.util.concurrent.CompletableFuture;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -13,8 +16,11 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import superlord.little_beasties.client.ClientProxy;
+import superlord.little_beasties.common.CommonProxy;
 import superlord.little_beasties.common.entity.BlueManefish;
 import superlord.little_beasties.common.entity.Coinfrog;
 import superlord.little_beasties.common.entity.CoinfrogTadpole;
@@ -29,14 +35,27 @@ import superlord.little_beasties.common.entity.SnappyWoolbug;
 import superlord.little_beasties.common.entity.TropicalDartfish;
 import superlord.little_beasties.common.entity.TropicalSeadragon;
 import superlord.little_beasties.common.entity.WaveHornglider;
-import superlord.little_beasties.init.*;
+import superlord.little_beasties.init.LBBiomeModifiers;
+import superlord.little_beasties.init.LBBlockEntities;
+import superlord.little_beasties.init.LBBlocks;
+import superlord.little_beasties.init.LBDataGen;
+import superlord.little_beasties.init.LBEntities;
+import superlord.little_beasties.init.LBFeatures;
+import superlord.little_beasties.init.LBItems;
+import superlord.little_beasties.init.LBParticles;
+import superlord.little_beasties.init.LBPoiTypes;
 import superlord.little_beasties.init.LBStructures.LBStructurePieceType;
 import superlord.little_beasties.init.LBStructures.LBStructureType;
+import superlord.little_beasties.init.LBTabs;
 
 @Mod(LittleBeasties.MOD_ID)
 public class LittleBeasties {
 	public static final String MOD_ID = "little_beasties";
+	public static final Logger LOGGER = LogManager.getLogger();
 
+	@SuppressWarnings("deprecation")
+	public static CommonProxy PROXY = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+	
 	public LittleBeasties() {
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
@@ -50,10 +69,16 @@ public class LittleBeasties {
 		LBItems.BLOCKS.register(bus);
 		LBTabs.REGISTER.register(bus);
 		LBBiomeModifiers.BIOME_MODIFIER_SERIALIZERS.register(bus);
+		LBBlockEntities.REGISTER.register(bus);
+		LBPoiTypes.POI_TYPES.register(bus);
+		LBParticles.REGISTER.register(bus);
 		LBStructureType.REGISTRY.register(bus);
 		LBStructurePieceType.REGISTRY.register(bus);
 		LBFeatures.FEATURES.register(bus);
 		bus.addListener(this::gatherData);
+		
+		PROXY.commonInit();
+		PROXY.clientInit();
 	}
 
 	public static ResourceLocation rl(String name) {

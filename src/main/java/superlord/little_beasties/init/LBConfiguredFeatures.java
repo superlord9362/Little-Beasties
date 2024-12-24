@@ -13,6 +13,7 @@ import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.DiskConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.RuleBasedBlockStateProvider;
 import superlord.little_beasties.LittleBeasties;
 
@@ -49,9 +50,11 @@ public class LBConfiguredFeatures {
 			);
 
 	public static final ResourceKey<ConfiguredFeature<?, ?>> MARINE_CLAY_DISK = registerConfiguredFeature("configured_marine_clay_disk");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> MANEFISH_HIVE_TOWER = registerConfiguredFeature("configured_manefish_hive_tower");
 
 	public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> bootstapContext) {
 		FeatureUtils.register(bootstapContext, MARINE_CLAY_DISK, Feature.DISK, new DiskConfiguration(RuleBasedBlockStateProvider.simple(LBBlocks.MARINE_CLAY.get()), BlockPredicate.matchesBlocks(List.of(Blocks.GRAVEL, Blocks.SAND)), UniformInt.of(1, 3), 1));
+		FeatureUtils.register(bootstapContext, MANEFISH_HIVE_TOWER, LBFeatures.MANEFISH_HIVE_TOWER.get(), new NoneFeatureConfiguration());
 	}
 
 	public static ResourceKey<ConfiguredFeature<?, ?>> registerConfiguredFeature(String id) {

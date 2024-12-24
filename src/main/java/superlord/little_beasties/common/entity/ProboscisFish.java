@@ -166,7 +166,7 @@ public class ProboscisFish extends WaterAnimal implements Bucketable {
 
 	public void tick() {
 		super.tick();
-		if (this.hasFollowers() && this.level().random.nextInt(200) == 1) {
+		if (this.hasFollowers() && this.random.nextInt(200) == 1) {
 			List<? extends ProboscisFish> list = this.level().getEntitiesOfClass(this.getClass(), this.getBoundingBox().inflate(8.0D, 8.0D, 8.0D));
 			if (list.size() <= 1) {
 				this.schoolSize = 1;

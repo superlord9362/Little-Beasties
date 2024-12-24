@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -52,6 +53,9 @@ public class LBBucketItem extends BucketItem {
 	
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> toolTip, TooltipFlag flag) {
+		if (stack.hasTag()) {
+			toolTip.add(Component.translatable(entityTypeSupplier.get().toString() + "." + stack.getTag().getInt("Color")).withStyle(ChatFormatting.DARK_GRAY));
+		}
 	}
 
 	private void spawn(ServerLevel world, ItemStack stack, BlockPos pos) {

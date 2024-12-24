@@ -139,5 +139,39 @@
 		
 	"itemGroup.little_beasties_item_group": "Little Beasties Items",
 	"itemGroup.little_beasties_spawn_item_group": "Little Beasties Spawn Eggs",
-	"itemGroup.little_beasties_block_item_group": "Little Beasties Blocks"
+	"itemGroup.little_beasties_block_item_group": "Little Beasties Blocks",
+	
+	"entity.little_beasties.tropical_seadragon.0": "Orange Tropical Seadragon",
+	"entity.little_beasties.tropical_seadragon.1": "Opal Tropical Seadragon",
+	"entity.little_beasties.tropical_seadragon.2": "Rainbow Tropical Seadragon",
+	"entity.little_beasties.tropical_seadragon.3": "Golden Tropical Seadragon",
+	
+
+	"entity.little_beasties.saildrifter.0": "Bio Lumo Saildrifter",
+	"entity.little_beasties.saildrifter.1": "Blue Neon Saildrifter",
+	"entity.little_beasties.saildrifter.2": "Deep Kelp Saildrifter",
+	"entity.little_beasties.saildrifter.3": "Flamboyant Saildrifter",
+	"entity.little_beasties.saildrifter.4": "Hadal Saildrifter",
+	"entity.little_beasties.saildrifter.5": "Kelp Saildrifter",
+	"entity.little_beasties.saildrifter.6": "Masked Saildrifter",
+	"entity.little_beasties.saildrifter.7": "Neon Saildrifter",
+	"entity.little_beasties.saildrifter.8": "Spray Saildrifter",
+	"entity.little_beasties.saildrifter.9": "Sun Masked Saildrifter",
+	"entity.little_beasties.saildrifter.10": "Sunny Kelp Saildrifter",
+	"entity.little_beasties.saildrifter.11": "Tri-Banded Saildrifter",
+	"entity.little_beasties.saildrifter.12": "Wild Saildrifter",
+	"entity.little_beasties.saildrifter.13": "Wild Blue Saildrifter",
+	"entity.little_beasties.saildrifter.14": "Wild Spray Saildrifter",
+	"entity.little_beasties.saildrifter.15": "Wild Wave Saildrifter",
+	
+	"entity.little_beasties.sealight.0": "Emerald Sealight",
+	"entity.little_beasties.sealight.1": "Sun Sealight",
+	"entity.little_beasties.sealight.2": "Melon Sealight",
+	"entity.little_beasties.sealight.3": "Strawberry Sealight",
+	"entity.little_beasties.sealight.4": "Midnight Sealight",
+	
+	"entity.little_beasties.mohomooho.0": "Black Mohomooho",
+	"entity.little_beasties.mohomooho.1": "Red Mohomooho",
+	"entity.little_beasties.mohomooho.2": "Tan Mohomooho",
+	"entity.little_beasties.mohomooho.3": "Brown Mohomooho"
 }

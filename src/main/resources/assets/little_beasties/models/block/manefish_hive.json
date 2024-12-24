@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/cube_column",
+	"textures": {
+		"end": "little_beasties:block/manefish_hive_top",
+    	"side": "little_beasties:block/manefish_hive_side"
+	}
+}

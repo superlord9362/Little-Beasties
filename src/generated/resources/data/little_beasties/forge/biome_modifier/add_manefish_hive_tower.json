@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "minecraft:warm_ocean",
+  "features": "little_beasties:placed_manefish_hive_tower",
+  "step": "vegetal_decoration"
+}

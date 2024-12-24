@@ -17,6 +17,7 @@ import superlord.little_beasties.LittleBeasties;
 public class LBPlacedFeatures {
 	
 	public static final ResourceKey<PlacedFeature> MARINE_CLAY_DISK = registerPlacedFeature("placed_marine_clay_disk");
+	public static final ResourceKey<PlacedFeature> MANEFISH_HIVE_TOWER = registerPlacedFeature("placed_manefish_hive_tower");
 	//public static final ResourceKey<PlacedFeature> BATHYAL_HOLLOW_REMAINS = registerPlacedFeature("placed_bathyal_hollow_remains");
 	//public static final ResourceKey<PlacedFeature> INTERTIDAL_HOLLOW_REMAINS = registerPlacedFeature("placed_intertidal_hollow_remains");
 	//public static final ResourceKey<PlacedFeature> MIDNIGHT_HOLLOW_REMAINS = registerPlacedFeature("placed_midnight_hollow_remains");
@@ -26,6 +27,7 @@ public class LBPlacedFeatures {
 	public static void bootstrap(BootstapContext<PlacedFeature> bootstapContext) {
 		HolderGetter<ConfiguredFeature<?, ?>> configHolderGetter = bootstapContext.lookup(Registries.CONFIGURED_FEATURE);
 		PlacementUtils.register(bootstapContext, MARINE_CLAY_DISK, configHolderGetter.getOrThrow(LBConfiguredFeatures.MARINE_CLAY_DISK), List.of(CountPlacement.of(1), BiomeFilter.biome()));
+		PlacementUtils.register(bootstapContext, MANEFISH_HIVE_TOWER, configHolderGetter.getOrThrow(LBConfiguredFeatures.MANEFISH_HIVE_TOWER), List.of(CountPlacement.of(5), BiomeFilter.biome()));
 	}
 	
 	public static ResourceKey<PlacedFeature> registerPlacedFeature(String id) {

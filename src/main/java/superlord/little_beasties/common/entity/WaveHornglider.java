@@ -11,14 +11,10 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
-import net.minecraft.world.entity.animal.Cod;
-import net.minecraft.world.entity.animal.Salmon;
-import net.minecraft.world.entity.animal.TropicalFish;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -37,7 +33,6 @@ public class WaveHornglider extends WaterAnimal {
 		this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
 		this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, EntitySelector.NO_SPECTATORS::test));
 		this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1, 10));
-		this.goalSelector.addGoal(1, new FollowWaveHorngliderGoal(this));
 	}
 
 	public boolean requiresCustomPersistence() {
@@ -85,34 +80,6 @@ public class WaveHornglider extends WaterAnimal {
 			this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
 		}
 		super.aiStep();
-	}
-
-	public class FollowWaveHorngliderGoal extends Goal {
-		private final Mob entity;
-
-		public FollowWaveHorngliderGoal(Mob entity) {
-			this.entity = entity;
-		}
-
-		@Override
-		public boolean canUse() {
-			return entity.tickCount % 60 == 0;
-		}
-
-		@Override
-		public boolean canContinueToUse() {
-			return entity.tickCount % 80 != 0;
-		}
-
-		@Override
-		public void start() {
-			super.start();
-			for (Mob mob : entity.level().getEntitiesOfClass(Mob.class, entity.getBoundingBox().inflate(5), e -> e != entity)) {
-				if (mob instanceof TropicalFish || mob instanceof Salmon || mob instanceof Cod || mob instanceof BlueManefish || mob instanceof Saildrifter || mob instanceof ProboscisFish) {
-					mob.getNavigation().moveTo(entity, mob.getSpeed());
-				}
-			}
-		}
 	}
 
 }
